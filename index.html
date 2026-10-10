@@ -138,6 +138,14 @@ header>*{pointer-events:auto}
   opacity:0;transition:all .35s;pointer-events:none;box-shadow:0 10px 40px rgba(255,255,255,.25)}
 #toast.show{opacity:1;transform:translateX(-50%)}
 
+/* cinematic tracers */
+.tracer{fill:none;stroke:#fff;stroke-width:2.5;stroke-linecap:round}
+.tracer-head{fill:#fff}
+.flash-ring{fill:none;stroke:#fff;stroke-width:3;animation:ringFlash .9s ease-out forwards}
+@keyframes ringFlash{from{r:12;opacity:1}to{r:75;opacity:0}}
+.node.root{animation:rootBreathe 2.6s ease-in-out infinite}
+@keyframes rootBreathe{0%,100%{filter:drop-shadow(0 0 12px rgba(255,255,255,.35))}50%{filter:drop-shadow(0 0 30px rgba(255,255,255,.6))}}
+
 @media(max-width:640px){
   .search-box input{width:150px}
   .search-box input:focus{width:180px}
@@ -169,7 +177,13 @@ header>*{pointer-events:auto}
 
 <div id="stage">
   <svg id="canvas" preserveAspectRatio="xMidYMid meet">
-    <g id="viewport"><g id="links"></g><g id="nodes"></g></g>
+    <defs>
+      <filter id="glow" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur stdDeviation="5" result="b"/>
+        <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+      </filter>
+    </defs>
+    <g id="viewport"><g id="links"></g><g id="nodes"></g><g id="fx"></g></g>
   </svg>
 </div>
 
@@ -179,7 +193,7 @@ header>*{pointer-events:auto}
   <div class="panel-body" id="pBody"></div>
 </aside>
 
-<div id="hint">🖱️ Drag to pan · Scroll to zoom · Click boxes to expand</div>
+<div id="hint">⚡ Click the <b>LINUX MASTERY</b> box &nbsp;·&nbsp; 🖱️ drag to pan &nbsp;·&nbsp; scroll to zoom</div>
 <div id="counter"><b id="visCount">0</b> boxes visible</div>
 <div id="toast"></div>
 
@@ -189,6 +203,7 @@ header>*{pointer-events:auto}
 const NS='http://www.w3.org/2000/svg';
 const svg=document.getElementById('canvas'), viewport=document.getElementById('viewport'),
       gLinks=document.getElementById('links'), gNodes=document.getElementById('nodes'),
+      gFx=document.getElementById('fx'),
       stage=document.getElementById('stage'), panel=document.getElementById('panel'),
       pKicker=document.getElementById('pKicker'), pTitle=document.getElementById('pTitle'), pBody=document.getElementById('pBody');
 
@@ -206,7 +221,7 @@ function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t
 /* ---------------- data → tree ---------------- */
 function build(data){
   idMap.clear();
-  const root={id:'root',type:'root',name:'LINUX',sub:'Zero → DevOps-ready · 19 modules',expanded:true,children:[]};
+  const root={id:'root',type:'root',name:'LINUX MASTERY',sub:'Click to ignite ⚡',expanded:false,children:[]};
   idMap.set('root',root);
   (data.phases||[]).forEach((p,pi)=>{
     const pn={id:'p'+pi,type:'phase',name:'Phase '+(pi+1)+' · '+p.name,sub:p.tagline||'',expanded:true,parent:root,children:[]};
@@ -332,6 +347,64 @@ function render(animateLinks){
   document.getElementById('visCount').textContent=order.length;
 }
 
+/* ---------------- cinematic ignite: lines roam the screen, then become phases ---------------- */
+let cinematic=false;
+function playCinematic(n){
+  if(cinematic)return;cinematic=true;
+  // where will the phases land? (compute without showing)
+  n.expanded=true;layout();
+  const targets=n.children.map(c=>({x:c.x,y:c.y}));
+  n.expanded=false;layout();
+  const r=svg.getBoundingClientRect();
+  const worldW=r.width/view.k, worldH=r.height/view.k;
+  gFx.innerHTML='';
+  const sx=n.x, sy=n.y;
+  const tracers=targets.map((t,i)=>{
+    // wild control points → the line roams across the screen before landing
+    const c1x=sx+(Math.random()-.5)*worldW*1.1, c1y=sy+(Math.random()-.5)*worldH*.9;
+    const c2x=t.x+(Math.random()-.5)*worldW*.6,  c2y=t.y+(Math.random()-.5)*worldH*.5;
+    const d='M '+sx+','+sy+' C '+c1x.toFixed(1)+','+c1y.toFixed(1)+' '+c2x.toFixed(1)+','+c2y.toFixed(1)+' '+t.x+','+t.y;
+    const path=document.createElementNS(NS,'path');
+    path.setAttribute('d',d);path.setAttribute('class','tracer');path.setAttribute('filter','url(#glow)');
+    gFx.appendChild(path);
+    const head=document.createElementNS(NS,'circle');
+    head.setAttribute('r',6);head.setAttribute('class','tracer-head');head.setAttribute('filter','url(#glow)');
+    head.style.opacity=0;gFx.appendChild(head);
+    return {path,head,len:path.getTotalLength(),delay:i*190,dur:1250+Math.random()*550};
+  });
+  const t0=performance.now();
+  (function frame(now){
+    let done=0;
+    tracers.forEach(tr=>{
+      let p=(now-t0-tr.delay)/tr.dur;if(p<0)p=0;
+      if(p>=1){p=1;done++;}
+      const e=p<.5?2*p*p:1-Math.pow(-2*p+2,2)/2;
+      tr.path.style.strokeDasharray=tr.len;
+      tr.path.style.strokeDashoffset=tr.len*(1-e);
+      const pt=tr.path.getPointAtLength(Math.max(0,e*tr.len-.1));
+      tr.head.setAttribute('cx',pt.x);tr.head.setAttribute('cy',pt.y);
+      tr.head.style.opacity=(p>0&&p<1)?1:0;
+    });
+    if(done<tracers.length)requestAnimationFrame(frame);
+    else finishCinematic(n,targets);
+  })(t0);
+}
+function finishCinematic(n,targets){
+  targets.forEach((t,i)=>{
+    setTimeout(()=>{
+      const ring=document.createElementNS(NS,'circle');
+      ring.setAttribute('cx',t.x);ring.setAttribute('cy',t.y);
+      ring.setAttribute('class','flash-ring');ring.setAttribute('filter','url(#glow)');
+      gFx.appendChild(ring);
+      setTimeout(()=>ring.remove(),950);
+    },i*80);
+  });
+  n.expanded=true;
+  render(true);
+  ensureKidsVisible(n);
+  setTimeout(()=>{gFx.innerHTML='';cinematic=false;},1400);
+}
+
 /* ---------------- view controls ---------------- */
 function applyView(){viewport.style.transform='translate('+view.x+'px,'+view.y+'px) scale('+view.k+')';}
 function fitView(){
@@ -403,6 +476,7 @@ gNodes.addEventListener('click',e=>{
   const n=idMap.get(gel.dataset.id);
   if(!n)return;
   if(n.children.length){
+    if(n.type==='root'&&!n.expanded){playCinematic(n);return;}
     n.expanded=!n.expanded;
     render(false);
     if(n.expanded)ensureKidsVisible(n);
@@ -469,7 +543,7 @@ fetch('data/syllabus.json')
     render(true);
     firstRender=false;
     requestAnimationFrame(()=>setTimeout(fitView,60));
-    setTimeout(()=>toast('Click any box to expand its branches'),1400);
+    setTimeout(()=>toast('Click the LINUX MASTERY box ⚡'),1400);
   })
   .catch(err=>{
     document.getElementById('visCount').textContent='!';
