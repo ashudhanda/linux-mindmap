@@ -501,19 +501,28 @@ function ensureKidsVisible(n){
   userMoved=true;applyView();
 }
 
-/* pan */
-let panning=false,sx=0,sy=0,vx=0,vy=0;
+/* pan (drag threshold: only capture the pointer once it is a real drag, so clicks on nodes still fire) */
+let panning=false,dragging=false,sx=0,sy=0,vx=0,vy=0,pid=null;
 stage.addEventListener('pointerdown',e=>{
   if(e.target.closest('#panel')||e.target.closest('header'))return;
-  panning=true;sx=e.clientX;sy=e.clientY;vx=view.x;vy=view.y;
-  stage.classList.add('panning');stage.setPointerCapture(e.pointerId);
+  panning=true;dragging=false;sx=e.clientX;sy=e.clientY;vx=view.x;vy=view.y;pid=e.pointerId;
 });
 stage.addEventListener('pointermove',e=>{
   if(!panning)return;
-  view.x=vx+(e.clientX-sx);view.y=vy+(e.clientY-sy);
-  userMoved=true;applyView();
+  const dx=e.clientX-sx,dy=e.clientY-sy;
+  if(!dragging&&Math.hypot(dx,dy)>6){
+    dragging=true;
+    stage.classList.add('panning');
+    try{stage.setPointerCapture(pid);}catch(err){}
+  }
+  if(dragging){
+    view.x=vx+dx;view.y=vy+dy;
+    userMoved=true;applyView();
+  }
 });
-stage.addEventListener('pointerup',()=>{panning=false;stage.classList.remove('panning');});
+function endPan(){panning=false;dragging=false;stage.classList.remove('panning');}
+stage.addEventListener('pointerup',endPan);
+stage.addEventListener('pointercancel',endPan);
 stage.addEventListener('wheel',e=>{e.preventDefault();zoomBy(Math.pow(1.0016,-e.deltaY),e.clientX,e.clientY);},{passive:false});
 document.getElementById('zoomIn').addEventListener('click',()=>zoomBy(1.25));
 document.getElementById('zoomOut').addEventListener('click',()=>zoomBy(.8));
