@@ -1,0 +1,2720 @@
+{
+  "title": "Linux Mastery",
+  "subtitle": "Zero to DevOps-ready: 19 modules, every topic, hands-on labs, interview proof",
+  "phases": [
+    {
+      "id": "phase-0",
+      "name": "Foundations",
+      "tagline": "What Linux is and how to talk to it",
+      "modules": [
+        {
+          "id": "m1",
+          "name": "Linux Foundations",
+          "summary": "What an OS, kernel, shell, and distribution actually are.",
+          "topics": [
+            {
+              "name": "What an operating system is",
+              "subtopics": [
+                {
+                  "name": "OS as hardware manager",
+                  "points": [
+                    "Sits between hardware and applications, abstracting CPU, memory, and devices",
+                    "Without an OS every program would need its own hardware drivers",
+                    "Provides four core services: process scheduling, memory management, filesystem, device I/O"
+                  ]
+                },
+                {
+                  "name": "OS as resource allocator",
+                  "points": [
+                    "Decides which program runs on the CPU and when (scheduling)",
+                    "Isolates processes so one crashing program cannot take down others",
+                    "Enforces access control on files, devices, and network resources"
+                  ]
+                },
+                {
+                  "name": "OS examples",
+                  "points": [
+                    "Linux, Windows, macOS are general-purpose operating systems",
+                    "Android is built on the Linux kernel; iOS on the Darwin/XNU kernel",
+                    "Servers overwhelmingly run Linux for stability, cost, and automation"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "The Linux kernel",
+              "subtopics": [
+                {
+                  "name": "What the kernel does",
+                  "points": [
+                    "Privileged core program with direct hardware access",
+                    "Manages processes, memory pages, filesystems, and device drivers",
+                    "Exposes hardware to programs through system calls (open, read, write, fork)"
+                  ]
+                },
+                {
+                  "name": "Kernel space vs user space",
+                  "points": [
+                    "Kernel space: privileged mode, direct hardware access, a crash here panics the system",
+                    "User space: restricted mode where applications and shells run",
+                    "System calls are the controlled bridge between the two worlds"
+                  ]
+                },
+                {
+                  "name": "Monolithic design",
+                  "points": [
+                    "Linux is monolithic: core services share one kernel address space for speed",
+                    "Drivers load and unload at runtime as kernel modules (lsmod)",
+                    "Contrast with microkernels where services run as separate user-space servers"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Shell vs terminal vs console",
+              "subtopics": [
+                {
+                  "name": "Shell",
+                  "points": [
+                    "Command interpreter that reads input and launches programs (Bash, zsh, fish)",
+                    "Expands wildcards, variables, quoting, pipelines, and redirection before execution",
+                    "Also a scripting language — the same syntax automates servers"
+                  ]
+                },
+                {
+                  "name": "Terminal",
+                  "points": [
+                    "Application window rendering text and forwarding keystrokes (GNOME Terminal, xterm)",
+                    "Historically a physical device; today a terminal emulator program",
+                    "The shell runs INSIDE the terminal — they are two different layers"
+                  ]
+                },
+                {
+                  "name": "Console",
+                  "points": [
+                    "The physical or primary virtual I/O directly attached to a machine",
+                    "On servers often reached via serial console or IPMI when nothing else works",
+                    "Kernel panic messages appear on the console — the last resort display"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "CLI vs GUI",
+              "subtopics": [
+                {
+                  "name": "CLI strengths",
+                  "points": [
+                    "Scriptable: the same command runs on 1 server or 1000 identically",
+                    "Low bandwidth and precise — works over slow SSH links",
+                    "Every action is reproducible, loggable, and version-controllable"
+                  ]
+                },
+                {
+                  "name": "GUI strengths",
+                  "points": [
+                    "Discoverable: menus reveal what is possible without memorization",
+                    "Better for one-off visual tasks like image editing",
+                    "Costs RAM, CPU, and attack surface — a liability on servers"
+                  ]
+                },
+                {
+                  "name": "Server reality",
+                  "points": [
+                    "Most Linux servers run headless with no GUI installed",
+                    "DevOps work is CLI-first: SSH sessions, config files, automation",
+                    "Learn the CLI deeply; treat GUI tools as optional conveniences"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Linux distributions",
+              "subtopics": [
+                {
+                  "name": "What a distro is",
+                  "points": [
+                    "Linux kernel + GNU tools + package manager + installer + defaults, bundled by a vendor or community",
+                    "Same kernel family, different tooling, release cadence, and support model",
+                    "Choosing a distro mostly means choosing a package manager and lifecycle"
+                  ]
+                },
+                {
+                  "name": "Major families",
+                  "points": [
+                    "Debian family (Debian, Ubuntu, Mint): apt/dpkg, .deb packages",
+                    "RHEL family (RHEL, Fedora, Rocky, AlmaLinux): dnf/yum/rpm, .rpm packages",
+                    "Arch family (Arch, Manjaro): pacman, rolling release",
+                    "Others: openSUSE (zypper), Alpine (apk — tiny, container favorite)"
+                  ]
+                },
+                {
+                  "name": "Which to learn",
+                  "points": [
+                    "Ubuntu/Debian: beginner-friendly, huge community, dominant in cloud",
+                    "RHEL/Rocky/Alma: enterprise standard and the RHCSA certification target",
+                    "Learn one deeply, then map concepts — 90% of Linux knowledge transfers"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "GNU/Linux naming and history",
+              "subtopics": [
+                {
+                  "name": "The naming truth",
+                  "points": [
+                    "Linux strictly means the kernel, started by Linus Torvalds in 1991",
+                    "GNU (Richard Stallman, 1983) wrote the userland: gcc, bash, coreutils",
+                    "A distro is GNU tools + Linux kernel — hence the name GNU/Linux"
+                  ]
+                },
+                {
+                  "name": "Unix roots",
+                  "points": [
+                    "Linux is Unix-like: follows POSIX conventions but contains no AT&T Unix code",
+                    "Inherits the Unix philosophy: small composable tools, text streams, everything is a file",
+                    "POSIX compliance is why skills transfer across Linux, macOS, and BSD"
+                  ]
+                },
+                {
+                  "name": "Open-source licensing",
+                  "points": [
+                    "Linux is GPLv2: free to use, modify, and distribute, with source included",
+                    "Copyleft: derivative works must also ship their source code",
+                    "This license is why thousands of companies contribute to a single kernel"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "uname -a",
+            "uname -r",
+            "cat /etc/os-release",
+            "lsb_release -a",
+            "hostnamectl",
+            "hostname",
+            "whoami",
+            "echo",
+            "clear",
+            "history",
+            "man",
+            "exit"
+          ],
+          "lab": "Run uname -r, cat /etc/os-release, and hostnamectl on your machine. Then run man uname and identify which flag prints only the kernel release versus all information.",
+          "lab_expected": "You can state your distro name/version, kernel version, and hostname; man <command> becomes your first reflex when unsure.",
+          "interview_q": "What is the difference between Linux and Unix? What is the Linux kernel?",
+          "interview_a": "Linux is a Unix-like open-source kernel; Unix is a family of proprietary operating systems sharing design conventions. The kernel is the privileged core program managing hardware, processes, memory, and filesystems — everything else (shell, tools, desktop) runs in user space."
+        },
+        {
+          "id": "m2",
+          "name": "The Shell",
+          "summary": "Command anatomy, paths, completion, history, and getting help.",
+          "topics": [
+            {
+              "name": "The shell as command interpreter",
+              "subtopics": [
+                {
+                  "name": "Role of the shell",
+                  "points": [
+                    "Reads each line you type, parses it, and launches the requested program",
+                    "Handles wildcards, variables, quoting, redirection, and pipelines before the program runs",
+                    "Returns the program's exit code so scripts can branch on success or failure"
+                  ]
+                },
+                {
+                  "name": "Common shells",
+                  "points": [
+                    "Bash: default on most distros, POSIX-compatible with extensions",
+                    "zsh: popular interactive shell with richer completion and themes",
+                    "sh/dash: minimal POSIX shell, often what /bin/sh points to for fast scripts",
+                    "fish: friendly interactive shell but not POSIX-compatible — scripts may break"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Command anatomy",
+              "subtopics": [
+                {
+                  "name": "command [options] [arguments]",
+                  "points": [
+                    "Example: ls -l /etc — command=ls, option=-l, argument=/etc",
+                    "Options modify behavior; arguments are the targets acted upon",
+                    "Order matters for some tools — options usually come before arguments"
+                  ]
+                },
+                {
+                  "name": "Short vs long options",
+                  "points": [
+                    "Single dash bundles single letters: ls -lah",
+                    "Double dash uses readable words: ls --all --human-readable",
+                    "Use -- to mark end of options: rm -- -weirdfile handles dash-prefixed names"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Absolute vs relative paths",
+              "subtopics": [
+                {
+                  "name": "Absolute paths",
+                  "points": [
+                    "Start at root: /etc/nginx/nginx.conf — works from any directory",
+                    "Unambiguous and stable — preferred in scripts, cron jobs, and configs",
+                    "Longer to type but never depend on where you currently are"
+                  ]
+                },
+                {
+                  "name": "Relative paths",
+                  "points": [
+                    "Resolved from the current directory: ../logs/app.log",
+                    ". means current directory, .. means the parent directory",
+                    "Shorter interactively but break if you cd elsewhere — a classic script bug"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Tab completion and history",
+              "subtopics": [
+                {
+                  "name": "Tab completion",
+                  "points": [
+                    "Tab auto-completes commands, paths, and even option names",
+                    "Double-Tab lists all matches when the input is ambiguous",
+                    "Fastest way to avoid typos in long paths — build the muscle memory"
+                  ]
+                },
+                {
+                  "name": "Command history",
+                  "points": [
+                    "Up arrow or the history command recalls previous commands",
+                    "Ctrl+R reverse-searches history incrementally as you type",
+                    "!n re-runs command number n; !! repeats the last command; !$ reuses its last argument"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Getting help",
+              "subtopics": [
+                {
+                  "name": "man pages",
+                  "points": [
+                    "man <command> is the authoritative reference, organized in numbered sections",
+                    "Navigate with / to search and q to quit",
+                    "man 5 passwd (file format) vs man 1 passwd (command) — section numbers disambiguate"
+                  ]
+                },
+                {
+                  "name": "Quick help tools",
+                  "points": [
+                    "<command> --help prints a concise option summary — try this first",
+                    "whatis gives a one-line description; apropos searches descriptions by keyword",
+                    "type tells whether a name is a builtin, alias, function, or external binary"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "pwd",
+            "ls -l",
+            "ls -la",
+            "ls -lh",
+            "cd",
+            "echo",
+            "printf",
+            "man",
+            "whatis",
+            "apropos",
+            "type",
+            "which",
+            "whereis",
+            "history"
+          ],
+          "lab": "From your home directory, cd to /etc using an absolute path, list only hidden files there, then return home with a bare cd. Use history to find your ls command number and re-run it with !<number>.",
+          "lab_expected": "You move between directories without thinking, and use tab-completion and history instead of retyping.",
+          "interview_q": "What shell are you using and how do you check? What is the difference between which, type, and whereis?",
+          "interview_a": "echo $0 or echo $SHELL shows the current shell. which searches PATH for external binaries only; type also reports shell builtins, keywords, functions, and aliases; whereis additionally lists man pages and source locations."
+        }
+      ]
+    },
+    {
+      "id": "phase-1",
+      "name": "File Mastery",
+      "tagline": "Files, permissions, users, processes, text — the daily toolkit",
+      "modules": [
+        {
+          "id": "m3",
+          "name": "Filesystem Hierarchy & File Operations",
+          "summary": "The filesystem tree, file types, inodes, links, and file operations.",
+          "topics": [
+            {
+              "name": "The single-rooted tree",
+              "subtopics": [
+                {
+                  "name": "One root to rule them all",
+                  "points": [
+                    "Everything hangs under one root / — no drive letters like Windows C:",
+                    "Other disks and partitions are grafted onto the tree via mounting at any directory",
+                    "This uniformity is why the same tools work on local disks, USB sticks, and network shares"
+                  ]
+                },
+                {
+                  "name": "Path resolution",
+                  "points": [
+                    "Absolute paths always start with / and work from anywhere",
+                    "Relative paths resolve from the current working directory (see pwd)",
+                    "The kernel resolves each path component left to right through directory entries"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "FHS directory purposes",
+              "subtopics": [
+                {
+                  "name": "System binaries",
+                  "points": [
+                    "/bin: essential user commands (ls, cp, mv) needed even in single-user mode",
+                    "/sbin: system administration binaries (fdisk, iptables, reboot)",
+                    "Modern distros often merge these into /usr/bin via symlinks — know both layouts"
+                  ]
+                },
+                {
+                  "name": "Configuration and variable data",
+                  "points": [
+                    "/etc: host-specific configuration files — the admin's main workplace",
+                    "/var: data that grows — logs (/var/log), mail spools, caches, databases",
+                    "Rule: /etc is edited by humans, /var is written by programs"
+                  ]
+                },
+                {
+                  "name": "Homes and temporary space",
+                  "points": [
+                    "/home: user home directories — each user's private space",
+                    "/root: root's home, kept separate so /home can fail or be unmounted independently",
+                    "/tmp: world-writable scratch space, often cleared on reboot (tmpfs)",
+                    "/opt: third-party commercial software bundles living outside the package manager"
+                  ]
+                },
+                {
+                  "name": "System and virtual directories",
+                  "points": [
+                    "/usr: shareable read-only programs, libraries, and documentation",
+                    "/boot: kernel images, initramfs, and bootloader configuration",
+                    "/lib: shared libraries needed at boot; /lib64 on 64-bit systems",
+                    "/dev: device files; /proc: live kernel and process info; /sys: kernel object model — virtual, zero disk usage"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Everything is a file",
+              "subtopics": [
+                {
+                  "name": "The philosophy",
+                  "points": [
+                    "Devices, processes, sockets, and kernel tunables all appear as files",
+                    "One toolset (cat, echo, grep) manages wildly different resources uniformly",
+                    "Writing to the right file can reconfigure hardware — with great power comes rm -rf"
+                  ]
+                },
+                {
+                  "name": "Concrete examples",
+                  "points": [
+                    "/dev/sda is a disk you can read block by block",
+                    "/proc/cpuinfo exposes CPU details as readable text",
+                    "/sys/class/net/eth0/ holds live network interface state and tunables"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "File types and inodes",
+              "subtopics": [
+                {
+                  "name": "Type characters in ls -l",
+                  "points": [
+                    "- regular file, d directory, l symbolic link",
+                    "b block device (disks), c character device (terminals, /dev/null)",
+                    "p named pipe (FIFO), s Unix domain socket"
+                  ]
+                },
+                {
+                  "name": "Inodes",
+                  "points": [
+                    "Metadata structure holding size, owner, permissions, timestamps, and block pointers",
+                    "Stores everything about a file EXCEPT its name — names live in directory entries",
+                    "Finite supply: df -i shows usage; exhaust inodes and no new files can be created despite free space"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hard links vs soft links",
+              "subtopics": [
+                {
+                  "name": "Hard links",
+                  "points": [
+                    "Another directory entry pointing to the same inode — same file, two names",
+                    "Restricted to one filesystem; cannot link directories (normally)",
+                    "Deleting one name leaves the data intact until the last link is removed",
+                    "Created with ln (no -s); verify with ls -li showing identical inode numbers"
+                  ]
+                },
+                {
+                  "name": "Soft (symbolic) links",
+                  "points": [
+                    "A separate small file storing a path to the target — shown as name -> target",
+                    "Can cross filesystems and point to directories",
+                    "Breaks (dangles) if the target moves or is deleted",
+                    "Created with ln -s; most config management uses symlinks for version switching"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "File CRUD operations",
+              "subtopics": [
+                {
+                  "name": "Create and navigate",
+                  "points": [
+                    "mkdir -p builds nested directory trees in one shot",
+                    "touch creates empty files or updates timestamps on existing ones",
+                    "cd, pwd, and ls are the movement trio — learn their flags cold"
+                  ]
+                },
+                {
+                  "name": "Copy, move, delete",
+                  "points": [
+                    "cp -r copies trees; -a (archive) preserves permissions, timestamps, and links",
+                    "mv renames or relocates — atomic within one filesystem",
+                    "rm -r deletes trees, -i prompts, -f forces; rm -rf with a wrong path destroys data — always echo the path first"
+                  ]
+                },
+                {
+                  "name": "Inspect and find",
+                  "points": [
+                    "file identifies content type regardless of extension",
+                    "stat shows full inode metadata: blocks, links, access/change/modify times",
+                    "find . -name '*.log' -type f -mtime -7 locates files by name, type, and age"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "mkdir -p",
+            "rmdir",
+            "touch",
+            "cp -r",
+            "cp -a",
+            "mv",
+            "rm -ri",
+            "ln",
+            "ln -s",
+            "file",
+            "stat",
+            "find",
+            "ls -li"
+          ],
+          "lab": "Build ~/lab3/projects/{alpha,beta}/docs with one command. Create notes.txt in docs, copy it to alpha, move the copy to beta, create a symlink to it in your home dir, then delete the whole lab3 tree. Inspect with ls -li to compare inode numbers of the hard vs soft link.",
+          "lab_expected": "You create nested trees fast, and can explain from inode numbers why a hard link shares an inode while a symlink does not.",
+          "interview_q": "What is the difference between a hard link and a soft (symbolic) link? What is an inode?",
+          "interview_a": "A hard link is another directory entry pointing to the same inode — same filesystem only, survives original deletion. A symlink is a separate file holding a path — can cross filesystems but breaks if the target moves. An inode stores all file metadata (size, permissions, timestamps, block locations) except the name."
+        },
+        {
+          "id": "m4",
+          "name": "Permissions",
+          "summary": "Reading and setting permissions: rwx, chmod, umask, and special bits.",
+          "topics": [
+            {
+              "name": "Reading ls -l output",
+              "subtopics": [
+                {
+                  "name": "Field by field",
+                  "points": [
+                    "Format: type+perms, link count, owner, group, size, timestamp, name",
+                    "Example: -rwxr-xr-- 1 ashu dev 2048 Oct 10 notes.txt — decode each field on sight",
+                    "First character is the type: - file, d directory, l symlink"
+                  ]
+                },
+                {
+                  "name": "Link count, owner, and timestamps",
+                  "points": [
+                    "Second field is the hard-link count — directories always show at least 2 (. and itself)",
+                    "Owner and group columns show who controls the file — change with chown/chgrp",
+                    "Timestamp shows mtime by default; ls -lu shows access time, --time-style=full-iso gives precision"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "rwx meaning for files vs directories",
+              "subtopics": [
+                {
+                  "name": "On files",
+                  "points": [
+                    "r: read the file's contents",
+                    "w: modify or truncate the file's contents",
+                    "x: execute the file as a program or script"
+                  ]
+                },
+                {
+                  "name": "On directories",
+                  "points": [
+                    "r: list the names inside the directory",
+                    "w: create, delete, and rename entries inside it",
+                    "x: enter the directory and access its contents — the real gatekeeper",
+                    "Classic trap: r without x shows names but opens nothing"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Symbolic vs numeric chmod",
+              "subtopics": [
+                {
+                  "name": "Symbolic mode",
+                  "points": [
+                    "chmod u+x file adds execute for the owner; go-w removes write for group+others",
+                    "chmod a=r file sets everyone to read-only in one stroke",
+                    "Readable and surgical — best for small permission tweaks"
+                  ]
+                },
+                {
+                  "name": "Numeric (octal) mode",
+                  "points": [
+                    "r=4, w=2, x=1; sum per class: 7=rwx, 6=rw-, 5=r-x, 4=r--, 0=---",
+                    "chmod 755 = rwxr-xr-x; memorize the common set below",
+                    "Everyday values: 644 files, 755 directories and scripts, 600 secrets, 700 private dirs"
+                  ]
+                },
+                {
+                  "name": "Ownership with chown/chgrp",
+                  "points": [
+                    "chown user:group file changes owner and group — requires root",
+                    "chgrp group file changes only the group",
+                    "Everyday pattern: chown -R app:app /srv/app after deploying"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "umask and default permissions",
+              "subtopics": [
+                {
+                  "name": "The concept",
+                  "points": [
+                    "umask is a subtractive filter masking bits OFF new files and directories",
+                    "Base permissions: files start at 666, directories at 777, then umask removes bits",
+                    "It never ADDS permissions — only takes away"
+                  ]
+                },
+                {
+                  "name": "The math",
+                  "points": [
+                    "umask 022 → files 644, directories 755 (the common default)",
+                    "umask 027 → files 640, directories 750 (group-private default)",
+                    "umask 077 → files 600, directories 700 (paranoid default)",
+                    "Check with umask; set persistently in ~/.bashrc"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Special permission bits",
+              "subtopics": [
+                {
+                  "name": "setuid (4xxx)",
+                  "points": [
+                    "Program runs with the FILE OWNER's privileges, not the runner's",
+                    "Example: /usr/bin/passwd runs as root so users can change their own password",
+                    "Shown as s in the owner-x position: -rwsr-xr-x; audit with find / -perm -4000"
+                  ]
+                },
+                {
+                  "name": "setgid (2xxx)",
+                  "points": [
+                    "On files: runs with the file GROUP's privileges",
+                    "On directories: new files inherit the directory's group — the shared-project pattern (chmod 2770)",
+                    "Shown as s in the group-x position"
+                  ]
+                },
+                {
+                  "name": "Sticky bit (1xxx)",
+                  "points": [
+                    "On world-writable directories: only the file's owner (or root) may delete or rename",
+                    "/tmp is the classic: drwxrwxrwt (1777) — everyone writes, nobody deletes others' files",
+                    "Shown as t in the other-x position"
+                  ]
+                },
+                {
+                  "name": "Why 777 is dangerous",
+                  "points": [
+                    "Gives everyone read, write, AND execute — any user can modify or replace the content",
+                    "On scripts or web roots it enables code injection by any local account",
+                    "Fix is almost always 755 (dirs) or 644 (files), tightened per actual need"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "ls -l",
+            "chmod",
+            "chown",
+            "chgrp",
+            "umask",
+            "find -perm -4000",
+            "stat -c %a"
+          ],
+          "lab": "Create ~/lab4/secret.txt and ~/lab4/shared/. Set secret.txt to 600, shared/ to 770, then set the setgid bit on shared/ (chmod 2770). Change your umask to 027, create a new file, and verify it was created as 640. Finally, explain why /tmp has permissions 1777.",
+          "lab_expected": "You fluently convert between rwxr-xr-- and 754; you can predict default file/dir permissions from a umask; you know setuid (4xxx), setgid (2xxx), sticky (1xxx) and their use cases.",
+          "interview_q": "Explain chmod 4755, the sticky bit on /tmp, and what umask 022 does.",
+          "interview_a": "4755 = setuid + rwxr-xr-x: the program executes with the file owner's privileges. The sticky bit on world-writable /tmp means only each file's owner (or root) can delete it. umask 022 strips write for group and others, so new files are 644 and new directories 755."
+        },
+        {
+          "id": "m5",
+          "name": "Users & Groups",
+          "summary": "Creating and managing users and groups, and where accounts live.",
+          "topics": [
+            {
+              "name": "Users, groups, and root",
+              "subtopics": [
+                {
+                  "name": "Identity model",
+                  "points": [
+                    "Every process runs as a numeric UID; every file is owned by a UID and GID",
+                    "Usernames and group names are friendly labels over the numbers (see id)",
+                    "UID 0 is root: bypasses all permission checks — use sparingly and never for daily work"
+                  ]
+                },
+                {
+                  "name": "Groups",
+                  "points": [
+                    "Collections of users used to grant shared access to files",
+                    "Each user has exactly one primary group and any number of secondary groups",
+                    "New files take the user's primary group unless a directory setgid bit overrides it"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "The account databases",
+              "subtopics": [
+                {
+                  "name": "/etc/passwd",
+                  "points": [
+                    "One line per user: name:x:UID:GID:comment:home:shell",
+                    "World-readable by design; the x means the password hash lives in /etc/shadow",
+                    "The shell field controls login ability — /usr/sbin/nologin disables interactive login"
+                  ]
+                },
+                {
+                  "name": "/etc/shadow",
+                  "points": [
+                    "Hashed passwords plus aging fields (last change, min/max age, warn, expire)",
+                    "Readable only by root — this split is why shadow exists",
+                    "!! or * in the hash field means the account cannot authenticate with a password"
+                  ]
+                },
+                {
+                  "name": "/etc/group",
+                  "points": [
+                    "Group definitions: name, GID, and member list",
+                    "Secondary memberships are recorded here, not in passwd",
+                    "Read it directly to audit who belongs where"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Managing accounts",
+              "subtopics": [
+                {
+                  "name": "Creating",
+                  "points": [
+                    "useradd -m -s /bin/bash deployer creates the user with a home dir and shell",
+                    "groupadd devops creates a group; set the password with passwd deployer",
+                    "On Debian/Ubuntu, adduser is the friendlier interactive wrapper"
+                  ]
+                },
+                {
+                  "name": "Modifying",
+                  "points": [
+                    "usermod -aG devops deployer appends a secondary group — the -a is critical",
+                    "Without -a, usermod -G REPLACES all secondary groups (classic data-loss footgun)",
+                    "Lock with passwd -l, unlock with passwd -u; expire with chage -E"
+                  ]
+                },
+                {
+                  "name": "Deleting",
+                  "points": [
+                    "userdel deployer removes the account; -r also removes the home directory",
+                    "Before deleting: check for running processes and files owned elsewhere (find / -uid N)",
+                    "Orphaned files keep the numeric UID — reassign or clean them up"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Inspecting sessions",
+              "subtopics": [
+                {
+                  "name": "Who is here",
+                  "points": [
+                    "id shows your UID, primary GID, and all secondary groups",
+                    "who and w show currently logged-in users and what they are doing",
+                    "last reads the login history — spot logins at odd hours as a basic intrusion check"
+                  ]
+                },
+                {
+                  "name": "last and login auditing",
+                  "points": [
+                    "last reads /var/log/wtmp — full login and logout history with timestamps",
+                    "lastb shows FAILED login attempts — the first check on a suspected box",
+                    "lastlog shows each user's most recent login — spot dormant accounts waking up"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "su vs sudo (preview)",
+              "subtopics": [
+                {
+                  "name": "The distinction",
+                  "points": [
+                    "su switches to another user and needs THAT user's password",
+                    "sudo runs a single command as another user with YOUR password plus sudoers permission",
+                    "sudo logs every invocation — su sessions are far less auditable"
+                  ]
+                },
+                {
+                  "name": "Why sudo wins in production",
+                  "points": [
+                    "Every sudo invocation is logged with the user, command, and timestamp",
+                    "sudoers grants per-command privileges — su is all-or-nothing root",
+                    "No shared root password needed — deprovisioning one user affects nobody else"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "useradd -m",
+            "usermod -aG",
+            "userdel -r",
+            "groupadd",
+            "groupdel",
+            "passwd",
+            "chage",
+            "id",
+            "who",
+            "w",
+            "last"
+          ],
+          "lab": "Create a group devops and a user deployer with a home directory and bash shell; add deployer to devops as a secondary group; lock and unlock the account (passwd -l/-u); verify with id deployer and by reading /etc/passwd and /etc/group. Then delete both.",
+          "lab_expected": "You can provision and deprovision a user completely from the CLI and know exactly which files change.",
+          "interview_q": "How do you add an existing user to a group without removing their other groups? Where is password info stored?",
+          "interview_a": "usermod -aG group user — the -a (append) is essential, otherwise existing secondary groups are wiped. Account data lives in /etc/passwd, password hashes in /etc/shadow, and group memberships in /etc/group."
+        },
+        {
+          "id": "m6",
+          "name": "Processes & Job Control",
+          "summary": "Viewing and controlling processes: states, signals, jobs, priorities.",
+          "topics": [
+            {
+              "name": "Process fundamentals",
+              "subtopics": [
+                {
+                  "name": "Program vs process",
+                  "points": [
+                    "A program is code on disk; a process is a running instance loaded into memory",
+                    "Each process gets its own virtual address space and resource handles",
+                    "One program can spawn many processes — ten nginx workers are ten processes"
+                  ]
+                },
+                {
+                  "name": "PID and PPID",
+                  "points": [
+                    "PID uniquely identifies a process; PPID is its parent's PID",
+                    "PID 1 (systemd on modern distros) is the ancestor of all user-space processes",
+                    "PID 1 has PPID 0 — it is started directly by the kernel, no parent exists"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Process states",
+              "subtopics": [
+                {
+                  "name": "State codes",
+                  "points": [
+                    "R: running or runnable — on CPU or waiting for a timeslice",
+                    "S: interruptible sleep — waiting for an event; the normal idle state",
+                    "D: uninterruptible sleep — usually stuck in disk I/O, cannot be killed",
+                    "T: stopped — suspended by Ctrl+Z or a debugger; Z: zombie — dead, awaiting reaping"
+                  ]
+                },
+                {
+                  "name": "Reading states",
+                  "points": [
+                    "ps aux shows states in the STAT column; top shows them in the S column",
+                    "A process stuck in D often means wedged storage, not a CPU problem",
+                    "Lots of Z states means a buggy parent that never calls wait()"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Viewing processes",
+              "subtopics": [
+                {
+                  "name": "ps snapshots",
+                  "points": [
+                    "ps aux and ps -ef give full one-shot process listings",
+                    "ps aux --sort=-%cpu (or -%mem) surfaces resource hogs instantly",
+                    "pgrep -f pattern finds PIDs by name — no grep -v grep gymnastics needed"
+                  ]
+                },
+                {
+                  "name": "top and htop",
+                  "points": [
+                    "Live, sortable view of CPU, memory, runtime, and command; q quits",
+                    "htop adds mouse support, a tree view (F5), and easy signal sending (F9)",
+                    "Watch the load averages and %wa (I/O wait) in the header, not just the process list"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Foreground, background, and jobs",
+              "subtopics": [
+                {
+                  "name": "Job control keys",
+                  "points": [
+                    "Appending & launches a command in the background, freeing the prompt",
+                    "Ctrl+Z suspends the foreground job; jobs lists the shell's background jobs",
+                    "bg resumes a job in the background; fg brings one to the foreground",
+                    "Ctrl+C sends SIGINT to the foreground process — the polite interrupt"
+                  ]
+                },
+                {
+                  "name": "Scope limits",
+                  "points": [
+                    "jobs only sees the current shell's jobs — use ps for every process on the system",
+                    "Background jobs die with the shell unless protected (nohup, disown, or tmux)",
+                    "For persistent work, tmux/screen beats raw job control"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Signals and killing",
+              "subtopics": [
+                {
+                  "name": "The essential signals",
+                  "points": [
+                    "15 SIGTERM: polite shutdown request — always try this first",
+                    "9 SIGKILL: unconditional kill, cannot be caught or ignored — last resort, no cleanup runs",
+                    "1 SIGHUP: historically hangup; daemons conventionally reload config on it",
+                    "2 SIGINT: what Ctrl+C sends; list every signal with kill -l"
+                  ]
+                },
+                {
+                  "name": "Kill tools and etiquette",
+                  "points": [
+                    "kill PID targets one process; killall name and pkill -f pattern target by name",
+                    "Escalation order: SIGTERM, wait a few seconds, then SIGKILL only if needed",
+                    "Never SIGKILL a database or filesystem-heavy app first — you risk corruption"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Priorities and special processes",
+              "subtopics": [
+                {
+                  "name": "nice and renice",
+                  "points": [
+                    "Niceness ranges from -20 (highest priority) to 19 (lowest); default is 0",
+                    "nice -n 19 backup.sh launches politely; renice adjusts a running process",
+                    "Only root can raise priority (negative nice) — anyone can be nice"
+                  ]
+                },
+                {
+                  "name": "Zombie, orphan, daemon",
+                  "points": [
+                    "Zombie: dead child whose parent never reaped it — kill the parent, not the zombie",
+                    "Orphan: parent died and init adopted it — usually harmless",
+                    "Daemon: background service detached from any terminal (sshd, cron)"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "ps aux",
+            "ps -ef",
+            "pgrep",
+            "top",
+            "htop",
+            "kill",
+            "kill -l",
+            "killall",
+            "pkill",
+            "jobs",
+            "bg",
+            "fg",
+            "nice",
+            "renice"
+          ],
+          "lab": "Start sleep 600 in the background, suspend a foreground sleep 600 with Ctrl+Z and resume it in the background with bg, list jobs, bring one to the foreground and kill it with Ctrl+C. Find a sleep PID with pgrep, terminate it gracefully with kill -15, then launch yes with nice -n 19 and observe its priority in top.",
+          "lab_expected": "You control foreground/background jobs fluently and always try SIGTERM before SIGKILL.",
+          "interview_q": "What is a zombie process, how do you find one, and how do you get rid of it?",
+          "interview_a": "A zombie is a dead child process whose parent never reaped its exit status via wait(). Find them with ps aux filtered for Z in the STAT column or the word defunct. You cannot kill a zombie itself — you must kill or restart its parent process."
+        },
+        {
+          "id": "m7",
+          "name": "Text Processing, Pipes & Redirection",
+          "summary": "Streams, redirection, pipes, and the grep/sed/awk text toolkit.",
+          "topics": [
+            {
+              "name": "Viewing files",
+              "subtopics": [
+                {
+                  "name": "The viewers",
+                  "points": [
+                    "cat dumps whole files — fine for small ones, terrible for huge logs",
+                    "less pages with scrolling and / search — the safe default viewer",
+                    "head and tail show the ends; tail -f follows a live-growing log file",
+                    "nl numbers lines; tac prints a file reversed line order"
+                  ]
+                },
+                {
+                  "name": "Choosing the right viewer",
+                  "points": [
+                    "cat for small files and concatenation; never cat a 2 GB log",
+                    "less for anything bigger than a screen — search with /, quit with q",
+                    "head -n 20 and tail -n 50 preview edges; tail -F survives log rotation"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Streams and file descriptors",
+              "subtopics": [
+                {
+                  "name": "stdin, stdout, stderr",
+                  "points": [
+                    "0 stdin: where a program reads input; 1 stdout: normal output; 2 stderr: error output",
+                    "Keeping them separate is what makes Unix plumbing composable",
+                    "A program's exit code ($?) is a fourth channel: success or failure type"
+                  ]
+                },
+                {
+                  "name": "Redirection operators",
+                  "points": [
+                    "> overwrites a file; >> appends; < feeds a file as stdin",
+                    "2> captures errors to a file; 2>&1 merges stderr into stdout",
+                    "&>file captures both streams at once; /dev/null is the bit bucket that discards everything"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Pipes",
+              "subtopics": [
+                {
+                  "name": "The pipe operator",
+                  "points": [
+                    "cmd1 | cmd2 feeds the stdout of the left command as stdin of the right",
+                    "Each tool does one thing well; chains compose them into data pipelines",
+                    "tee splits a stream: cmd | tee out.log | nextcmd saves a copy AND continues the pipe"
+                  ]
+                },
+                {
+                  "name": "Pipeline exit codes",
+                  "points": [
+                    "A pipeline's exit code is the LAST command's by default — earlier failures hide",
+                    "set -o pipefail makes the pipeline fail if any stage fails",
+                    "The PIPESTATUS array holds each stage's code for inspection after the fact"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "grep and regular expressions",
+              "subtopics": [
+                {
+                  "name": "grep essentials",
+                  "points": [
+                    "Flags: -i case-insensitive, -v invert match, -r recursive, -n line numbers, -c count, -E extended regex",
+                    "grep -R 'TODO' --include='*.py' . is a daily codebase search",
+                    "grep -q runs quietly for use in if conditions — output suppressed, exit code kept"
+                  ]
+                },
+                {
+                  "name": "Regex basics",
+                  "points": [
+                    "^ anchors to line start, $ to line end, . matches any single character",
+                    "* means zero or more of the previous, [] defines a character class, backslash escapes",
+                    "Always quote your patterns — the shell expands unquoted * before grep ever sees it"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "The classic pipeline toolkit",
+              "subtopics": [
+                {
+                  "name": "cut, sort, uniq",
+                  "points": [
+                    "cut -d: -f1 slices delimited fields (like usernames from /etc/passwd)",
+                    "sort orders lines: -n numeric, -r reverse, -u unique",
+                    "uniq -c counts adjacent duplicates — input MUST be sorted first",
+                    "Canonical top-N pattern: cut -d' ' -f1 access.log | sort | uniq -c | sort -nr | head"
+                  ]
+                },
+                {
+                  "name": "tr, wc, diff",
+                  "points": [
+                    "tr 'a-z' 'A-Z' translates characters — quick case conversion",
+                    "wc -l counts lines, -w words, -c bytes",
+                    "diff -u shows unified differences between files — the readable format"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "sed and awk awareness",
+              "subtopics": [
+                {
+                  "name": "sed the stream editor",
+                  "points": [
+                    "Substitution: sed 's/old/new/g' file transforms text in a stream",
+                    "-i edits files in place — always backup first with -i.bak",
+                    "Use for mechanical transforms: sed -i 's/debug=false/debug=true/' *.conf"
+                  ]
+                },
+                {
+                  "name": "awk the field processor",
+                  "points": [
+                    "Field-oriented: awk -F: '{print $1}' /etc/passwd prints usernames",
+                    "Pattern-action pairs: awk '$3 > 1000' filters on conditions",
+                    "The most programmable of the three — full variables, arithmetic, and formatting"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "cat",
+            "less",
+            "head",
+            "tail -f",
+            "grep",
+            "cut",
+            "sort",
+            "uniq",
+            "tr",
+            "wc",
+            "diff",
+            "tee",
+            "sed",
+            "awk"
+          ],
+          "lab": "On a 1000+ line fake web-access log: (1) find all 404 lines case-insensitively and count them; (2) extract the IP field, sort, and produce a top-10 offender list with counts (cut | sort | uniq -c | sort -nr | head); (3) redirect errors of a failing find / to /dev/null while saving results to a file with tee.",
+          "lab_expected": "You build multi-stage pipelines without hesitation and correctly separate stdout from stderr.",
+          "interview_q": "Explain the difference between grep, sed, and awk — when would you use each?",
+          "interview_a": "grep filters lines matching a pattern. sed edits streams — substitution, deletion, and transformation across text. awk is field-based processing and reporting, the most programmable of the three. Rule of thumb: find it with grep, change it with sed, report on columns with awk."
+        },
+        {
+          "id": "m8",
+          "name": "Vim & Nano",
+          "summary": "Editing files on headless servers with nano and vim.",
+          "topics": [
+            {
+              "name": "Why terminal editors matter",
+              "subtopics": [
+                {
+                  "name": "The server reality",
+                  "points": [
+                    "Production servers have no GUI — config edits happen over SSH in a terminal",
+                    "vim/vi is guaranteed present on virtually every Unix system ever shipped",
+                    "nano is friendlier where installed, but you cannot count on it remotely"
+                  ]
+                },
+                {
+                  "name": "vi is the universal fallback",
+                  "points": [
+                    "POSIX requires vi on every compliant system — it is always there",
+                    "Minimal containers and rescue shells often ship ONLY vi",
+                    "If you can drive vi, you can edit configs on any machine on earth"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "nano essentials",
+              "subtopics": [
+                {
+                  "name": "Basics",
+                  "points": [
+                    "nano file opens for editing — just type, shortcuts are shown on screen",
+                    "^O writes out (saves), ^X exits (^ means Ctrl)",
+                    "Self-teaching interface makes it the safe pick for quick edits"
+                  ]
+                },
+                {
+                  "name": "nano's best shortcuts",
+                  "points": [
+                    "Ctrl+O writes out, Ctrl+X exits, Ctrl+W searches, Ctrl+K cuts a line",
+                    "Ctrl+G opens built-in help — nano teaches itself",
+                    "Alt+U undoes — nano is friendlier than its reputation suggests"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Vim modes",
+              "subtopics": [
+                {
+                  "name": "The modal model",
+                  "points": [
+                    "Normal mode: keys are commands — the default state on open, your safe home base",
+                    "Insert mode: keys type text — enter with i, a, or o; leave with Esc",
+                    "Visual mode (v): select text for operations; Command-line mode (:): ex commands at the bottom"
+                  ]
+                },
+                {
+                  "name": "Mode awareness habits",
+                  "points": [
+                    "Esc returns to Normal mode — tap it twice when lost, it is always safe",
+                    "The -- INSERT -- indicator at the bottom shows your current mode",
+                    "Most vim confusion comes from typing commands while stuck in Insert mode"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Navigation and editing",
+              "subtopics": [
+                {
+                  "name": "Movement",
+                  "points": [
+                    "hjkl move like arrow keys; w/b jump by word; 0/$ jump to line ends",
+                    "gg goes to file top, G to file bottom; /pattern searches, n jumps to next match",
+                    "Counts multiply commands: 5dd deletes five lines, 3j moves down three"
+                  ]
+                },
+                {
+                  "name": "Editing primitives",
+                  "points": [
+                    "i insert before cursor, a append after, o open a new line below",
+                    "x deletes a character, dd cuts a line, yy yanks (copies), p pastes",
+                    "u undoes, Ctrl+r redoes — mistakes are cheap"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Save, quit, and replace",
+              "subtopics": [
+                {
+                  "name": "Exiting correctly",
+                  "points": [
+                    ":w saves, :q quits, :wq or ZZ saves and quits",
+                    ":q! abandons all changes — Esc then :q! always escapes when stuck",
+                    "Getting trapped in vim is a rite of passage; now you know the exit"
+                  ]
+                },
+                {
+                  "name": "Search and replace",
+                  "points": [
+                    ":%s/old/new/g replaces across the whole file; add c to confirm each one",
+                    "Always copy real configs before editing: cp nginx.conf nginx.conf.bak",
+                    "vimtutor (ships with vim) is the canonical 30-minute drill — run it once"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "nano",
+            "vim",
+            "vi",
+            "vimtutor",
+            "view"
+          ],
+          "lab": "Copy /etc/hosts to ~/lab8/hosts (never edit the real one directly). In vim: jump to the last line with G, add an entry below with o, search for localhost with /, replace all occurrences with :%s, undo with u, then save and quit. Repeat the same edit in nano for comparison.",
+          "lab_expected": "You can open, edit, search, replace, save, and exit in vim without getting stuck — the single most practical server skill.",
+          "interview_q": "You are SSH'd into a server with only vi available. How do you search, replace all occurrences of a string, and save-and-quit?",
+          "interview_a": "/pattern searches (n for next match), :%s/old/new/g replaces all occurrences, :wq or ZZ saves and quits, :q! quits discarding changes."
+        }
+      ]
+    },
+    {
+      "id": "phase-2",
+      "name": "System Administration",
+      "tagline": "Packages, storage, networking, services, scheduling — running real systems",
+      "modules": [
+        {
+          "id": "m9",
+          "name": "Package Management",
+          "summary": "Installing and managing software with apt/dnf across distro families.",
+          "topics": [
+            {
+              "name": "Packages and repositories",
+              "subtopics": [
+                {
+                  "name": "Core concepts",
+                  "points": [
+                    "Packages bundle software plus metadata and install scripts into one unit",
+                    "Repositories are versioned online collections the manager downloads from",
+                    "Automatic dependency resolution is the killer feature over manual installs"
+                  ]
+                },
+                {
+                  "name": "The two families",
+                  "points": [
+                    "Debian/Ubuntu: apt is the high-level tool, dpkg the low-level one; .deb files",
+                    "RHEL/Fedora: dnf (modern yum) is high-level, rpm is low-level; .rpm files",
+                    "Concepts transfer 1:1 — only the command names change"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Daily apt workflow",
+              "subtopics": [
+                {
+                  "name": "The commands",
+                  "points": [
+                    "apt update refreshes the package index — changes no installed software",
+                    "apt upgrade installs newer versions of everything installed",
+                    "apt install/remove/purge manage packages; purge also deletes configuration files",
+                    "apt search and apt show discover and inspect packages"
+                  ]
+                },
+                {
+                  "name": "dpkg low level",
+                  "points": [
+                    "dpkg -l lists installed packages; dpkg -L pkg lists the files it installed",
+                    "dpkg -i file.deb installs a local package without dependency resolution",
+                    "Classic confusion: update is NOT upgrade — update alone changes nothing"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Daily dnf workflow",
+              "subtopics": [
+                {
+                  "name": "The commands",
+                  "points": [
+                    "dnf install/remove/search/info/repolist mirror the apt workflow",
+                    "rpm -qa lists everything installed; rpm -ql pkg lists its files; rpm -qi shows info",
+                    "dnf is the modern yum — same concepts, better dependency solver"
+                  ]
+                },
+                {
+                  "name": "dnf extras",
+                  "points": [
+                    "dnf provides '*/nginx' finds which package owns a file",
+                    "dnf history reviews and undoes past transactions",
+                    "dnf check-update lists available updates without installing anything"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Repositories and third-party software",
+              "subtopics": [
+                {
+                  "name": "Adding sources",
+                  "points": [
+                    "Ubuntu PPAs (add-apt-repository) and RHEL's EPEL add community packages",
+                    "Repo files live in /etc/apt/sources.list.d/ and /etc/yum.repos.d/",
+                    "Third-party repos run install scripts as root — verify trust before adding"
+                  ]
+                },
+                {
+                  "name": "Modern formats",
+                  "points": [
+                    "snap and flatpak bundle dependencies for desktop apps",
+                    "Servers rarely need them; know they exist for completeness",
+                    "Containers (Docker) have largely replaced exotic packaging on servers"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "apt update",
+            "apt upgrade",
+            "apt install",
+            "apt remove",
+            "apt purge",
+            "apt search",
+            "apt show",
+            "dpkg -l",
+            "dpkg -L",
+            "dnf install",
+            "dnf remove",
+            "dnf search",
+            "rpm -qa",
+            "rpm -ql"
+          ],
+          "lab": "On Ubuntu/Debian: apt update, install htop and tree, run apt show htop, list which files the package installed (dpkg -L htop), then remove it with purge. On a RHEL-family VM or container: repeat with dnf install htop, rpm -ql htop, dnf remove htop.",
+          "lab_expected": "You can install, inspect, and cleanly remove software on both major distro families and explain update vs upgrade.",
+          "interview_q": "What is the difference between apt update and apt upgrade? Between rpm and dnf/yum?",
+          "interview_a": "update only refreshes the local package index; upgrade actually installs newer versions. rpm operates on local .rpm files with no dependency resolution; dnf/yum resolve and fetch dependencies from repositories."
+        },
+        {
+          "id": "m10",
+          "name": "Archiving & Compression",
+          "summary": "Bundling and compressing files with tar, gzip, and friends.",
+          "topics": [
+            {
+              "name": "Archive vs compress",
+              "subtopics": [
+                {
+                  "name": "The distinction",
+                  "points": [
+                    "tar bundles many files into one archive — no compression by itself",
+                    "gzip/bzip2/xz compress a single stream of bytes",
+                    ".tar.gz means a tar archive piped through gzip — the classic pairing"
+                  ]
+                },
+                {
+                  "name": "Common extensions decoded",
+                  "points": [
+                    ".tar.gz / .tgz: tarred then gzipped — the Linux standard",
+                    ".tar.bz2: bzip2 compression; .tar.xz: xz compression, smallest size",
+                    ".zip: Windows-compatible; .7z: high ratio via p7zip"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "tar essentials",
+              "subtopics": [
+                {
+                  "name": "Flag mnemonics",
+                  "points": [
+                    "c create, x extract, t list contents, f file (always followed by the archive name)",
+                    "v verbose, z gzip, j bzip2, J xz — compression flags pair with c/x",
+                    "Create: tar -czf site.tar.gz site/; extract: tar -xzf site.tar.gz; inspect: tar -tzf site.tar.gz"
+                  ]
+                },
+                {
+                  "name": "Extraction safety",
+                  "points": [
+                    "Always list (-t) before extracting — archives can contain absolute paths or ../ traversals",
+                    "Extract into an empty directory first when the source is untrusted",
+                    "--strip-components=1 drops a top-level folder on extract; -C dir chooses the destination"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Compressors and zip",
+              "subtopics": [
+                {
+                  "name": "The trade-off ladder",
+                  "points": [
+                    "gzip/gunzip: fast with decent ratio — the default choice",
+                    "bzip2/bunzip2: smaller files, slower — good for archives",
+                    "xz/unxz: smallest files, slowest — best for distribution",
+                    "zip/unzip: Windows-compatible format for cross-platform sharing"
+                  ]
+                },
+                {
+                  "name": "Choosing quickly",
+                  "points": [
+                    "Need speed? gzip. Need size? xz. Need balance? bzip2",
+                    "Compressing already-compressed media (jpg, mp4) wastes CPU for zero gain",
+                    "For backups prefer tar plus one compressor over zip — permissions survive"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "tar -czf",
+            "tar -xzf",
+            "tar -tzf",
+            "tar -C",
+            "gzip",
+            "gunzip",
+            "bzip2",
+            "bunzip2",
+            "xz",
+            "unxz",
+            "zip",
+            "unzip"
+          ],
+          "lab": "Create ~/lab10/site/{css,js,img} with several files. Create site-backup.tar.gz, list its contents without extracting (tar tzf), extract into ~/lab10/restore/, verify with diff -r. Create a .tar.bz2 of the same tree and compare the two archive sizes.",
+          "lab_expected": "You never extract an archive blind — you list first — and you know which flag pairs with which compression.",
+          "interview_q": "How do you create and extract a .tar.gz? How do you list contents without extracting?",
+          "interview_a": "tar -czf archive.tar.gz dir/ creates; tar -xzf archive.tar.gz extracts; tar -tzf archive.tar.gz lists contents without extracting."
+        },
+        {
+          "id": "m11",
+          "name": "Disks, Partitions, Filesystems, Mount & LVM",
+          "summary": "Partitions, filesystems, mounting, and LVM storage layering.",
+          "topics": [
+            {
+              "name": "Block devices and inspection",
+              "subtopics": [
+                {
+                  "name": "Device naming",
+                  "points": [
+                    "/dev/sda for SATA, /dev/nvme0n1 for NVMe, /dev/vda for virtual disks",
+                    "Partitions append numbers: sda1, nvme0n1p1 (note the p on NVMe)",
+                    "lsblk draws the device → partition → mount tree; blkid shows UUIDs and types"
+                  ]
+                },
+                {
+                  "name": "lsblk and blkid in practice",
+                  "points": [
+                    "lsblk -f adds filesystem types and labels to the tree view",
+                    "blkid prints UUIDs — copy these into /etc/fstab, never /dev names",
+                    "lsblk -d shows only disks, hiding partitions for a clean overview"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Partitioning",
+              "subtopics": [
+                {
+                  "name": "Tools and schemes",
+                  "points": [
+                    "fdisk handles MBR; gdisk and parted handle GPT",
+                    "MBR: 4 primary partitions max, 2 TB limit — legacy only",
+                    "GPT: 128 partitions, enormous disks — the modern default",
+                    "Practice ONLY on loop devices or disposable VMs — wrong-disk partitioning destroys data"
+                  ]
+                },
+                {
+                  "name": "MBR vs GPT deep cut",
+                  "points": [
+                    "MBR: 4 primary partitions max, 2 TB disk limit, bootloader in the first 512 bytes",
+                    "GPT: 128 partitions by default, 9 ZB max, protective MBR for legacy tools",
+                    "New systems should always use GPT — MBR is for legacy BIOS edge cases"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Filesystems",
+              "subtopics": [
+                {
+                  "name": "Creating and choosing",
+                  "points": [
+                    "mkfs.ext4 /dev/sda1 writes a filesystem onto a partition",
+                    "ext4: the general Linux default; xfs: RHEL default, excels at large files and scale",
+                    "vfat: for USB sticks and EFI partitions where cross-OS compatibility matters",
+                    "A partition without a filesystem is just raw unusable space"
+                  ]
+                },
+                {
+                  "name": "Tuning and checking",
+                  "points": [
+                    "tune2fs -l shows ext4 superblock details and mount counts",
+                    "fsck checks and repairs filesystems — run on UNMOUNTED volumes only",
+                    "xfs_repair is the xfs equivalent; never fsck a mounted filesystem"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Mounting",
+              "subtopics": [
+                {
+                  "name": "Manual mounts",
+                  "points": [
+                    "mount /dev/sda1 /mnt/data attaches it to the tree; umount detaches",
+                    "umount fails if the mount is busy — lsof +D /mnt/data finds the culprit",
+                    "df -h shows usage per mounted filesystem; findmnt is the readable tree view"
+                  ]
+                },
+                {
+                  "name": "Persistent mounts with fstab",
+                  "points": [
+                    "/etc/fstab mounts filesystems at boot — the persistence contract",
+                    "Use UUID= entries (stable) instead of /dev names (can reorder across reboots)",
+                    "After editing fstab, always run mount -a to verify BEFORE rebooting — a bad fstab can halt boot"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "df vs du and inode exhaustion",
+              "subtopics": [
+                {
+                  "name": "Two different questions",
+                  "points": [
+                    "df -h: how much free space per filesystem",
+                    "du -sh dir: how much space a directory tree actually uses",
+                    "Classic puzzle: df says 100% full but du shows little — deleted files still held open by processes"
+                  ]
+                },
+                {
+                  "name": "Diagnosing the discrepancy",
+                  "points": [
+                    "lsof | grep deleted reveals open-but-deleted files eating space",
+                    "Restarting the holding process (or truncating via : > file) frees it",
+                    "Also check df -i — exhausted inodes block new files despite free gigabytes"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "LVM layering",
+              "subtopics": [
+                {
+                  "name": "The PV → VG → LV stack",
+                  "points": [
+                    "PV (physical volume): a raw disk or partition initialized with pvcreate",
+                    "VG (volume group): pooled storage from one or more PVs",
+                    "LV (logical volume): a carvable virtual partition from the pool",
+                    "Decouples filesystems from physical disks — resize without repartitioning"
+                  ]
+                },
+                {
+                  "name": "Extending volumes",
+                  "points": [
+                    "lvextend -r -L +5G /dev/vgdata/lvdata grows the volume AND filesystem online",
+                    "The -r flag is the magic — without it you must resize the filesystem separately",
+                    "Shrinking is riskier and often needs unmounting — plan generously instead"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Swap basics",
+              "subtopics": [
+                {
+                  "name": "Purpose",
+                  "points": [
+                    "Disk-backed overflow for RAM; view with swapon -s or free -h",
+                    "On RAM-rich modern servers, small swap mainly buys OOM grace and hibernation",
+                    "Heavy swap use (si/so in vmstat) means the box needs more RAM, not more swap"
+                  ]
+                },
+                {
+                  "name": "Swap in practice",
+                  "points": [
+                    "swapon -s and free -h show current swap usage",
+                    "A swap FILE (fallocate + mkswap) works when repartitioning is impossible",
+                    "vm.swappiness tunes eagerness: 10 for servers, 60 is the desktop default"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "lsblk",
+            "blkid",
+            "df -h",
+            "df -i",
+            "du -sh",
+            "fdisk -l",
+            "mkfs.ext4",
+            "mount",
+            "umount",
+            "findmnt",
+            "pvcreate",
+            "vgcreate",
+            "lvcreate",
+            "lvextend",
+            "lsof",
+            "swapon -s"
+          ],
+          "lab": "In a VM (never on a host disk): create a 1 GB file with dd, attach it as a loop device with losetup, partition it with fdisk (GPT, one partition), format as ext4, mount at /mnt/lab11, write a file, add a UUID-based /etc/fstab entry, then run mount -a to verify persistence. Separately, build an LVM stack on a second loop device (PV → VG vgdata → LV lvdata), format, and mount it.",
+          "lab_expected": "You can take a raw block device from partitioned to formatted to persistently mounted, and you understand the LVM layering.",
+          "interview_q": "A disk shows 100% full but du shows little usage — what could cause that? How do you extend an LVM logical volume?",
+          "interview_a": "Deleted-but-still-open files held by processes (check lsof | grep deleted), or inode exhaustion (df -i). Extend with lvextend -r -L +5G /dev/vg/lv — the -r flag resizes the filesystem online."
+        },
+        {
+          "id": "m12",
+          "name": "Networking Essentials",
+          "summary": "IP addressing, DNS, connectivity testing, SSH transfer, and firewalls.",
+          "topics": [
+            {
+              "name": "IP addressing basics",
+              "subtopics": [
+                {
+                  "name": "IPv4 and CIDR",
+                  "points": [
+                    "32-bit dotted quads; the netmask/CIDR split defines network vs host portion",
+                    "192.168.1.0/24 means 254 usable hosts — /24, /16, /8 are the common masks",
+                    "Gateway is the router to other networks; get IP, mask, and gateway from ip a and ip r"
+                  ]
+                },
+                {
+                  "name": "DNS resolution",
+                  "points": [
+                    "Names resolve to IPs via resolvers listed in /etc/resolv.conf",
+                    "/etc/hosts overrides DNS locally — checked before any resolver",
+                    "getent hosts name tests resolution through the real system stack"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "The ip command",
+              "subtopics": [
+                {
+                  "name": "Modern replacement",
+                  "points": [
+                    "ip a shows addresses, ip r shows the routing table, ip link shows interfaces",
+                    "Replaces the deprecated ifconfig and route — learn ip, not the old tools",
+                    "ip -br a gives a terse one-line-per-interface summary"
+                  ]
+                },
+                {
+                  "name": "Everyday ip one-liners",
+                  "points": [
+                    "ip -br a gives a terse one-line-per-interface summary for scripts",
+                    "ip r get 8.8.8.8 shows which route and interface a packet would take",
+                    "ip link set eth0 up/down administratively toggles interfaces"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Connectivity testing",
+              "subtopics": [
+                {
+                  "name": "Layer by layer",
+                  "points": [
+                    "ping tests L3 reachability — but ICMP is often firewalled, so no reply does not equal down",
+                    "curl -v https://example.com tests the full HTTP stack and shows status codes and TLS",
+                    "curl -I fetches headers only — a quick health check",
+                    "traceroute/mtr shows the path packets take and exactly where they die"
+                  ]
+                },
+                {
+                  "name": "When ping lies",
+                  "points": [
+                    "Many firewalls drop ICMP — no reply does not prove the host is down",
+                    "Use TCP probes (nc -zv, curl) when ICMP is filtered",
+                    "mtr combines ping and traceroute for live path diagnosis"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Ports and listening services",
+              "subtopics": [
+                {
+                  "name": "ss, the socket detective",
+                  "points": [
+                    "ss -tulnp lists listening TCP/UDP ports with the owning process names",
+                    "First check for any 'service unreachable' report — is anything even listening?",
+                    "States to know: LISTEN (waiting), ESTAB (connected), TIME-WAIT (closing)"
+                  ]
+                },
+                {
+                  "name": "Probing ports",
+                  "points": [
+                    "nc -zv host port is a quick TCP connectivity probe",
+                    "Distinguishes 'host down' from 'port closed' from 'firewall drop'",
+                    "Pairs with ss: probe from outside, verify the listener inside"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "SSH and secure file transfer",
+              "subtopics": [
+                {
+                  "name": "ssh essentials",
+                  "points": [
+                    "ssh user@host opens an encrypted remote shell; -p sets the port, -i selects a key file",
+                    "First connection asks to trust the host key — verify it out-of-band in production",
+                    "SSH is also the transport for scp, sftp, rsync, and git — learn it once, use it everywhere"
+                  ]
+                },
+                {
+                  "name": "Moving files",
+                  "points": [
+                    "scp file user@host:/path is simple but restarts from zero on failure",
+                    "rsync -avz is resumable, transfers only deltas, and preserves permissions — the pro choice",
+                    "sftp gives an interactive FTP-like session over the SSH channel"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Firewalls",
+              "subtopics": [
+                {
+                  "name": "ufw on Debian/Ubuntu",
+                  "points": [
+                    "Human-friendly frontend: ufw allow 22/tcp, ufw deny 8080",
+                    "ufw status verbose shows the effective ruleset",
+                    "Sane baseline: default-deny incoming, allow only needed ports"
+                  ]
+                },
+                {
+                  "name": "firewalld on RHEL",
+                  "points": [
+                    "firewall-cmd --add-port=8080/tcp --permanent, then --reload to apply",
+                    "Zones (public, dmz, trusted) separate interfaces by trust level",
+                    "Classic gotcha: forgetting --permanent means rules vanish on reboot"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "OSI/TCP mental model",
+              "subtopics": [
+                {
+                  "name": "The layers that matter",
+                  "points": [
+                    "L1 physical, L2 link (MAC addresses), L3 network (IP), L4 transport (TCP/UDP ports), L7 application (HTTP, SSH)",
+                    "Troubleshoot bottom-up: link → IP → route → port → application",
+                    "Never debug at L7 when L3 is broken — the model saves hours of guessing"
+                  ]
+                },
+                {
+                  "name": "Mapping tools to layers",
+                  "points": [
+                    "L1: ethtool and dmesg for link state; L2: ip link, arp table",
+                    "L3: ping and ip r; L4: ss, nc, and TCP probes",
+                    "L7: curl -v, openssl s_client, and application logs"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "ip a",
+            "ip r",
+            "ip -br a",
+            "ping",
+            "curl -v",
+            "curl -I",
+            "traceroute",
+            "mtr",
+            "ss -tulnp",
+            "nc -zv",
+            "getent hosts",
+            "ssh",
+            "scp",
+            "sftp",
+            "rsync -avz",
+            "ufw",
+            "firewall-cmd"
+          ],
+          "lab": "(1) Use ip a and ip r to document your IP, netmask in CIDR, gateway, and DNS servers. (2) curl -I https://example.com and explain the status line. (3) Run ss -tulnp and identify which process listens on port 22. (4) scp a file to and from a second VM or container over SSH. (5) With ufw: allow port 8080, verify with status verbose, deny it again.",
+          "lab_expected": "You can describe any machine's network identity, test connectivity at each layer, and move files securely between hosts.",
+          "interview_q": "A user says 'the website is down.' Walk me through your network troubleshooting steps.",
+          "interview_a": "Bottom-up: ping the host (L3), verify DNS resolution (getent hosts), curl -v to test the HTTP layer and read the status code, ss -tulnp on the server to confirm the service is listening, then check the firewall. Isolate layer by layer instead of guessing."
+        },
+        {
+          "id": "m13",
+          "name": "systemd Services & Logs",
+          "summary": "Managing services with systemd and reading logs with journalctl.",
+          "topics": [
+            {
+              "name": "systemd as PID 1",
+              "subtopics": [
+                {
+                  "name": "Role",
+                  "points": [
+                    "The first process started by the kernel and the parent of everything in user space",
+                    "Manages services, mounts, timers, sockets, and boot targets in one framework",
+                    "Replaced SysV init scripts with declarative unit files"
+                  ]
+                },
+                {
+                  "name": "Why PID 1 is special",
+                  "points": [
+                    "The kernel panics if PID 1 dies — it must never exit",
+                    "systemd reaps orphaned processes adopted from dead parents",
+                    "ps -p 1 confirms the init system; systemd --version shows its release"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Units and systemctl",
+              "subtopics": [
+                {
+                  "name": "Unit types",
+                  "points": [
+                    ".service runs daemons, .timer schedules, .socket activates on connection, .target groups boot states",
+                    "Admin unit files live in /etc/systemd/system and override vendor files in /lib/systemd/system",
+                    "Never edit vendor units directly — use overrides via systemctl edit"
+                  ]
+                },
+                {
+                  "name": "Service lifecycle",
+                  "points": [
+                    "start/stop/restart/reload/status control the running state right now",
+                    "enable/disable controls auto-start at boot — independent of current state",
+                    "mask symlinks a unit to /dev/null, blocking even manual starts — stronger than disable",
+                    "After editing any unit: systemctl daemon-reload, or systemd ignores your changes"
+                  ]
+                },
+                {
+                  "name": "Targets vs runlevels",
+                  "points": [
+                    "multi-user.target is the modern runlevel 3 (text multi-user)",
+                    "graphical.target is the modern runlevel 5 (with display manager)",
+                    "systemctl get-default and set-default inspect and change the boot target"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Writing a service file",
+              "subtopics": [
+                {
+                  "name": "Anatomy of a unit",
+                  "points": [
+                    "[Unit]: Description= and After=network.target declare identity and ordering",
+                    "[Service]: ExecStart=/full/path (absolute paths only!), Restart=on-failure for resilience",
+                    "[Install]: WantedBy=multi-user.target hooks it into the boot target",
+                    "Type=simple is the common default; no shell features in ExecStart unless you wrap with /bin/bash -c"
+                  ]
+                },
+                {
+                  "name": "Common service directives",
+                  "points": [
+                    "Restart=on-failure with RestartSec=5s makes flaky apps self-heal",
+                    "User= and Group= drop privileges — never run services as root unnecessarily",
+                    "EnvironmentFile=/etc/myapp/env keeps secrets out of the unit file"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "journalctl",
+              "subtopics": [
+                {
+                  "name": "Querying the journal",
+                  "points": [
+                    "journalctl -u nginx: logs for one service; -b: this boot only; -f: follow live",
+                    "--since '1 hour ago' and -p err filter by time and priority",
+                    "Structured and indexed — far faster than grepping flat files for service history"
+                  ]
+                },
+                {
+                  "name": "Journal power filters",
+                  "points": [
+                    "journalctl -p err -b shows only errors from the current boot",
+                    "journalctl --since '09:00' --until '10:00' slices precise time windows",
+                    "journalctl --disk-usage reports size; --vacuum-size=100M caps growth"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Classic log files",
+              "subtopics": [
+                {
+                  "name": "Where things live",
+                  "points": [
+                    "/var/log/syslog (Debian) or /var/log/messages (RHEL): general system log",
+                    "auth.log/secure: authentication events — first place for login issues",
+                    "dmesg: the kernel ring buffer — hardware and driver messages in boot order"
+                  ]
+                },
+                {
+                  "name": "logrotate",
+                  "points": [
+                    "Rotates, compresses, and prunes logs so they never fill the disk",
+                    "Configured in /etc/logrotate.conf and /etc/logrotate.d/",
+                    "A missing logrotate config on a chatty app is a slow-motion disk-full incident"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Service troubleshooting order",
+              "subtopics": [
+                {
+                  "name": "The drill",
+                  "points": [
+                    "1. systemctl status — is it running? enabled? what was the last error?",
+                    "2. journalctl -u <service> — the service's own story",
+                    "3. Config syntax check, port conflicts (ss -tulnp), file permissions, missing dependencies",
+                    "Always in this order — it eliminates whole categories in seconds"
+                  ]
+                },
+                {
+                  "name": "Beyond the basics",
+                  "points": [
+                    "Check SELinux or AppArmor denials with ausearch or dmesg when permissions look right",
+                    "Verify the binary actually exists at the ExecStart path — typos are common",
+                    "Run the command manually as the service's User= account to catch environment issues"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "systemctl status",
+            "systemctl start",
+            "systemctl stop",
+            "systemctl restart",
+            "systemctl enable",
+            "systemctl disable",
+            "systemctl mask",
+            "systemctl is-enabled",
+            "systemctl daemon-reload",
+            "journalctl -u",
+            "journalctl -b",
+            "journalctl -f",
+            "dmesg",
+            "systemd-analyze"
+          ],
+          "lab": "Write a systemd unit ~/lab13/hello.service that runs a script logging a timestamp every 10 seconds (install to /etc/systemd/system/, daemon-reload, enable and start it). Then break the script's path on purpose, run systemctl status and journalctl -u hello.service -n 20 to diagnose, fix it, and confirm with journalctl -f.",
+          "lab_expected": "You can create, enable, debug, and read logs for any service — the core daily sysadmin loop.",
+          "interview_q": "What is the difference between systemctl disable and systemctl mask? A service will not start — how do you troubleshoot?",
+          "interview_a": "disable stops auto-start at boot but still allows manual start; mask symlinks the unit to /dev/null, blocking even manual starts. Troubleshoot: systemctl status, then journalctl -u for the service's logs, then check config syntax, port conflicts with ss -tulnp, file permissions, and missing dependencies."
+        },
+        {
+          "id": "m14",
+          "name": "Task Scheduling",
+          "summary": "Scheduling one-off and recurring jobs with at and cron.",
+          "topics": [
+            {
+              "name": "cron fundamentals",
+              "subtopics": [
+                {
+                  "name": "How cron works",
+                  "points": [
+                    "The crond daemon wakes every minute and runs entries whose time matches",
+                    "Five fields: minute, hour, day-of-month, month, day-of-week — * means every",
+                    "The schedule is a contract: if the machine is off at that minute, the run is skipped (see anacron/systemd timers for catch-up)"
+                  ]
+                },
+                {
+                  "name": "Reading expressions",
+                  "points": [
+                    "*/15 * * * * runs every 15 minutes; 30 2 * * 1 runs 2:30 AM on Mondays",
+                    "0 0 1 * * runs at midnight on the first of each month",
+                    "Lists (1,15), ranges (9-17), and steps (*/10) compose freely"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "User vs system crontabs",
+              "subtopics": [
+                {
+                  "name": "User crontabs",
+                  "points": [
+                    "crontab -e edits your entries; crontab -l lists; crontab -r REMOVES them all with no undo",
+                    "No username field — entries run as you",
+                    "Export a backup (crontab -l > backup) before any -r"
+                  ]
+                },
+                {
+                  "name": "System crontabs",
+                  "points": [
+                    "/etc/crontab and /etc/cron.d/ include a username field for the entry to run as",
+                    "/etc/cron.hourly, daily, weekly, monthly run any executable script placed inside",
+                    "Know which file you are editing — wrong file means silent non-execution"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "cron environment gotchas",
+              "subtopics": [
+                {
+                  "name": "The minimal environment",
+                  "points": [
+                    "Cron runs with a tiny PATH, no aliases, and no interactive shell initialization",
+                    "Rule: use absolute paths for everything, or set PATH and needed variables at the crontab top",
+                    "Scripts that work in your shell fail in cron almost always because of environment",
+                    "Capture output: * * * * * /opt/job.sh >> /var/log/job.log 2>&1 — silent cron is undebuggable cron"
+                  ]
+                },
+                {
+                  "name": "Debugging silent cron",
+                  "points": [
+                    "Redirect output to a log: * * * * * /opt/job.sh >> /var/log/job.log 2>&1",
+                    "Check /var/log/cron or journalctl -u cron for execution evidence",
+                    "Test the exact command with env -i to simulate cron's bare environment"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "at for one-off jobs",
+              "subtopics": [
+                {
+                  "name": "Usage",
+                  "points": [
+                    "echo '/opt/backup.sh' | at 02:00 tomorrow schedules a single future run",
+                    "atq lists the queue; atrm <n> removes a queued job",
+                    "Perfect for run-this-once-later without committing a permanent cron entry"
+                  ]
+                },
+                {
+                  "name": "at in practice",
+                  "points": [
+                    "at now + 1 hour accepts natural-language time specs",
+                    "at -c <jobid> prints the full script that will execute — verify before it runs",
+                    "Batch queues (at -q b) defer jobs until load average drops — for heavy work"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "systemd timers awareness",
+              "subtopics": [
+                {
+                  "name": "The modern alternative",
+                  "points": [
+                    "A .timer unit paired with a .service: OnCalendar= for wall-clock, OnBootSec=/OnUnitActiveSec= for relative triggers",
+                    "Advantages: journal-integrated logging, dependency ordering, persistent catch-up runs",
+                    "Inspect with systemctl list-timers — know they exist even if cron remains your default"
+                  ]
+                },
+                {
+                  "name": "Timer vs cron cheat sheet",
+                  "points": [
+                    "Use cron for simple recurring shell tasks — it exists everywhere",
+                    "Use timers when you need logging, dependencies, or catch-up runs",
+                    "systemctl list-timers --all shows upcoming and recently elapsed runs"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "crontab -e",
+            "crontab -l",
+            "crontab -r",
+            "at",
+            "atq",
+            "atrm",
+            "systemctl list-timers",
+            "systemctl status cron"
+          ],
+          "lab": "Schedule a cron job that appends date to ~/lab14/heartbeat.log every minute (* * * * *), wait 3 minutes, verify 3 lines exist, then remove it. Schedule a one-off at job 2 minutes in the future that creates ~/lab14/at-works.txt, and confirm it with atq.",
+          "lab_expected": "You can write a correct 5-field cron expression from memory and you know cron jobs run with a minimal environment (use absolute paths).",
+          "interview_q": "What does */15 * * * * mean, and what is the difference between cron and systemd timers?",
+          "interview_a": "Every 15 minutes. cron is the simple, ubiquitous time-based scheduler; systemd timers add calendar and monotonic triggers, dependency handling, and journal-integrated logging."
+        }
+      ]
+    },
+    {
+      "id": "phase-3",
+      "name": "Automation",
+      "tagline": "Environment mastery and Bash scripting — making the machine work for you",
+      "modules": [
+        {
+          "id": "m15",
+          "name": "Environment Variables & Shell Config",
+          "summary": "Environment variables, PATH, and shell startup files.",
+          "topics": [
+            {
+              "name": "Shell vs environment variables",
+              "subtopics": [
+                {
+                  "name": "The distinction",
+                  "points": [
+                    "Shell variables exist only in the current shell instance",
+                    "Environment variables are exported and inherited by child processes",
+                    "export VAR=value promotes a shell variable; VAR=value cmd sets it for one command only",
+                    "env and printenv list the environment; unset removes a variable"
+                  ]
+                },
+                {
+                  "name": "Export in practice",
+                  "points": [
+                    "export EDITOR=vim makes every child program use vim",
+                    "Variables set without export stay invisible to scripts you launch",
+                    "printenv VAR checks one variable; env | grep PATH filters the list"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "PATH and command resolution",
+              "subtopics": [
+                {
+                  "name": "How commands are found",
+                  "points": [
+                    "PATH is a colon-separated list of directories searched in order",
+                    "which python3 shows which directory won the search",
+                    "Add personal bins with export PATH=\"$HOME/bin:$PATH\" — prepend, do not append blindly",
+                    "Never put . (current directory) first in PATH — a classic privilege-escalation trap"
+                  ]
+                },
+                {
+                  "name": "PATH debugging",
+                  "points": [
+                    "type -a python3 shows EVERY match in PATH search order",
+                    "hash -r clears bash's cached command locations after new installs",
+                    "Command not found despite being installed usually means a PATH or re-login issue"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Shell startup files",
+              "subtopics": [
+                {
+                  "name": "Login vs interactive shells",
+                  "points": [
+                    "~/.bash_profile (or ~/.profile) runs for login shells — SSH sessions, console logins",
+                    "~/.bashrc runs for interactive non-login shells — new terminal tabs",
+                    "/etc/profile and /etc/bash.bashrc are the system-wide counterparts",
+                    "Rule of thumb: environment and login-time setup in profile; aliases, functions, and prompt in bashrc"
+                  ]
+                },
+                {
+                  "name": "Applying changes with source",
+                  "points": [
+                    "Editing a startup file changes nothing until it is loaded",
+                    "source ~/.bashrc (or . ~/.bashrc) applies it to the current shell",
+                    "Scripts run in subshells — their variables die with them unless the script is sourced"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Aliases and prompt",
+              "subtopics": [
+                {
+                  "name": "Aliases",
+                  "points": [
+                    "alias ll='ls -lh' creates shortcuts; unalias removes them",
+                    "Make permanent by defining in ~/.bashrc",
+                    "Functions beat aliases for anything taking arguments or containing logic"
+                  ]
+                },
+                {
+                  "name": "Customizing PS1",
+                  "points": [
+                    "The prompt string supports escapes: \\u user, \\h host, \\w working dir, \\$ prompt char",
+                    "Colorize carefully — unescaped sequences break line wrapping; wrap in \\[ \\]",
+                    "A informative prompt (user@host:path + git branch) prevents wrong-machine mistakes"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "env",
+            "printenv",
+            "export",
+            "unset",
+            "source",
+            "alias",
+            "unalias",
+            "echo $PATH"
+          ],
+          "lab": "Add ~/lab15/bin to your PATH persistently via ~/.bashrc, create an executable hello script there, source ~/.bashrc, and run hello from any directory. Create an alias ll='ls -lh' and make it permanent. Then demonstrate the difference between VAR=x ./script.sh and export VAR=x for child-process visibility.",
+          "lab_expected": "You understand exactly where to put persistent config and why source is needed after editing.",
+          "interview_q": "What is the difference between ~/.bashrc and ~/.bash_profile? Why does a cron job not see your aliases?",
+          "interview_a": ".bash_profile runs for login shells; .bashrc for interactive non-login shells. cron runs non-interactive with a minimal environment — no aliases, tiny PATH — so scripts must use absolute paths and explicit environment variables."
+        },
+        {
+          "id": "m16",
+          "name": "Bash Scripting",
+          "summary": "Writing robust Bash scripts: variables, tests, loops, functions.",
+          "topics": [
+            {
+              "name": "Script anatomy",
+              "subtopics": [
+                {
+                  "name": "Shebang and execution",
+                  "points": [
+                    "#!/bin/bash on line one tells the kernel which interpreter to use",
+                    "chmod +x makes the script executable; ./script.sh runs it",
+                    "Scripts can also run via bash script.sh — useful when the execute bit is missing"
+                  ]
+                },
+                {
+                  "name": "The robust header",
+                  "points": [
+                    "set -euo pipefail: -e exits on first error, -u fails on unset variables",
+                    "-o pipefail makes a pipeline fail if ANY stage fails, not just the last",
+                    "This trio converts silent breakage into loud, debuggable failure"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Variables and quoting",
+              "subtopics": [
+                {
+                  "name": "Assignment and reference",
+                  "points": [
+                    "name=value with NO spaces around =; reference with $name or ${name}",
+                    "today=$(date +%F) captures command output; $((2 + 2)) does arithmetic",
+                    "'single quotes' are literal; \"double quotes\" expand variables; prefer $(...) over backticks"
+                  ]
+                },
+                {
+                  "name": "The quoting rule",
+                  "points": [
+                    "ALWAYS quote variables: \"$var\" — unquoted values undergo word-splitting and globbing",
+                    "Filenames with spaces are the classic victim of unquoted variables",
+                    "This single habit eliminates the most common class of shell bugs"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Input, arguments, and exit codes",
+              "subtopics": [
+                {
+                  "name": "Arguments",
+                  "points": [
+                    "$1 is the first argument, $@ is all arguments (quote it!), $# is the count",
+                    "shift drops $1, moving $2 into its place — handy for option parsing loops",
+                    "read -p 'Name: ' name takes interactive input from the user"
+                  ]
+                },
+                {
+                  "name": "Exit codes",
+                  "points": [
+                    "exit 0 means success; any non-zero value signals a failure type",
+                    "$? holds the previous command's exit code — check it immediately",
+                    "Scripts should exit non-zero with a usage message on invalid input"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Conditionals and tests",
+              "subtopics": [
+                {
+                  "name": "Test constructs",
+                  "points": [
+                    "[ ] is the POSIX test; [[ ]] is Bash's safer version (no word-splitting, supports =~ regex)",
+                    "Strings: -z empty, -n non-empty, = and != compare; numbers: -eq -ne -lt -le -gt -ge",
+                    "Files: -f regular file, -d directory, -e exists, -r/-w/-x permission checks",
+                    "if grep -q pattern file; then — test a command's exit code directly, no brackets needed"
+                  ]
+                },
+                {
+                  "name": "case statements",
+                  "points": [
+                    "case $1 in start) ...;; stop) ...;; *) usage;; esac dispatches cleanly on patterns",
+                    "Each branch ends with ;; — forgetting it is the classic syntax error",
+                    "Ideal for subcommand-style scripts (service scripts, CLIs)"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Loops and functions",
+              "subtopics": [
+                {
+                  "name": "Loops",
+                  "points": [
+                    "for f in *.log; do ...; done iterates globs or lists",
+                    "while read -r line; do ...; done < file is the safe file-reading idiom (-r keeps backslashes)",
+                    "break exits the loop, continue skips to the next iteration; seq or {1..10} generate ranges"
+                  ]
+                },
+                {
+                  "name": "Functions",
+                  "points": [
+                    "backup() { local src=$1; ...; } — local keeps variables from leaking globally",
+                    "return sets $? (0–255 only); use echo to return actual data",
+                    "Functions turn repeated blocks into named, testable units"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Debugging",
+              "subtopics": [
+                {
+                  "name": "Tools",
+                  "points": [
+                    "bash -x script.sh traces every executed line with a + prefix — the fastest debugger",
+                    "bash -n checks syntax without executing anything",
+                    "shellcheck (install it) lints scripts like a senior reviewer — run it on every script"
+                  ]
+                },
+                {
+                  "name": "Defensive scripting habits",
+                  "points": [
+                    "Quote every variable, validate every argument, exit non-zero on misuse",
+                    "Use mktemp for temporary files — predictable names invite symlink attacks",
+                    "Timestamp your logs: echo \"$(date -Is) starting\" >> run.log"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "chmod +x",
+            "bash -x",
+            "bash -n",
+            "shellcheck",
+            "read",
+            "test"
+          ],
+          "lab": "Write ~/lab16/backup.sh that takes a directory as $1, validates it exists (exit 1 with a usage message otherwise), creates a timestamped tar.gz in ~/backups/, keeps only the 5 newest backups (loop + ls -t), and logs each run to a log file. Run it with bash -x to watch execution.",
+          "lab_expected": "You write defensive scripts: quoted variables, validated arguments, meaningful exit codes — the RHCSA scripting bar (conditionals, loops, $1/$2, processing command output).",
+          "interview_q": "What does set -euo pipefail do, and why should scripts use \"$var\" with quotes?",
+          "interview_a": "-e exits on the first error, -u errors on unset variables, -o pipefail makes pipelines fail if any stage fails. Unquoted variables undergo word-splitting and glob expansion — the classic source of bugs with filenames containing spaces."
+        }
+      ]
+    },
+    {
+      "id": "phase-4",
+      "name": "Security & Mastery",
+      "tagline": "SSH hardening, boot literacy, and the troubleshooting mindset",
+      "modules": [
+        {
+          "id": "m17",
+          "name": "SSH Keys, sudo & Hardening",
+          "summary": "SSH key auth, least-privilege sudo, and server hardening basics.",
+          "topics": [
+            {
+              "name": "SSH key authentication",
+              "subtopics": [
+                {
+                  "name": "How it works",
+                  "points": [
+                    "ssh-keygen -t ed25519 creates a keypair: private key stays on your machine (chmod 600)",
+                    "The public key goes into ~/.ssh/authorized_keys on each server",
+                    "At login the server sends a challenge; your client signs it with the private key — the key itself never travels the network",
+                    "ssh-copy-id user@host installs your public key in one step"
+                  ]
+                },
+                {
+                  "name": "ssh-agent",
+                  "points": [
+                    "Caches decrypted keys in memory so you type the passphrase once per session",
+                    "ssh-add loads a key; agent forwarding (-A) is convenient but risky on untrusted hosts",
+                    "Prefer ProxyJump over agent forwarding for multi-hop access"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Hardening sshd",
+              "subtopics": [
+                {
+                  "name": "sshd_config essentials",
+                  "points": [
+                    "PermitRootLogin no — attackers cannot even attempt the most-targeted account",
+                    "PasswordAuthentication no — keys only, immune to password brute-forcing",
+                    "Consider a non-standard Port to dodge automated scanners (obscurity, not security — layer it)",
+                    "After changes: restart sshd AND keep a second session open while testing — locking yourself out is the classic mistake"
+                  ]
+                },
+                {
+                  "name": "Brute-force defense",
+                  "points": [
+                    "fail2ban auto-bans IPs after N failed attempts — cheap, effective",
+                    "Rate-limiting at the firewall is a complementary layer",
+                    "Monitor auth.log/secure for probing patterns"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "sudo vs su",
+              "subtopics": [
+                {
+                  "name": "The model",
+                  "points": [
+                    "su switches to another user and needs THAT user's password",
+                    "sudo runs one command as another user with YOUR password plus sudoers permission",
+                    "sudo -i opens a root shell; sudo -l lists exactly what you may run",
+                    "sudo logs every invocation — su sessions are far less auditable"
+                  ]
+                },
+                {
+                  "name": "Editing sudoers safely",
+                  "points": [
+                    "ALWAYS edit with visudo — it syntax-checks before saving",
+                    "A broken sudoers file can lock out all administrative access",
+                    "Grant narrowly: deployer ALL=(ALL) /usr/bin/systemctl restart nginx beats ALL=(ALL) ALL",
+                    "Least privilege is the governing principle, not convenience"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Server hardening checklist",
+              "subtopics": [
+                {
+                  "name": "The baseline",
+                  "points": [
+                    "Key-only SSH with root login disabled",
+                    "Firewall default-deny with only required ports open",
+                    "Prompt security updates (unattended-upgrades or a patch routine)",
+                    "Remove or disable every unneeded service — check with ss -tulnp",
+                    "Least privilege everywhere: users, sudo entries, and file permissions"
+                  ]
+                },
+                {
+                  "name": "Ongoing hygiene",
+                  "points": [
+                    "Review sudoers and user accounts quarterly — remove the departed promptly",
+                    "Subscribe to distro security notices; patch on a schedule, not in a panic",
+                    "Keep off-machine backups and TEST restores — untested backups are wishes"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "ssh-keygen -t ed25519",
+            "ssh-copy-id",
+            "ssh -i",
+            "ssh-add",
+            "ssh-agent",
+            "sudo -l",
+            "sudo -i",
+            "su -",
+            "visudo"
+          ],
+          "lab": "Generate an ed25519 key pair (ssh-keygen -t ed25519), copy the public key to a second VM or container with ssh-copy-id, and log in without a password. Harden the lab server: set PermitRootLogin no and PasswordAuthentication no in sshd_config, restart sshd, and confirm password login is rejected. Create a user with a limited sudoers entry via visudo (allow only systemctl restart nginx) and verify sudo -l shows just that.",
+          "lab_expected": "You treat password SSH as legacy and can grant least-privilege sudo access safely.",
+          "interview_q": "How does SSH key authentication work, and what are the first three hardening steps for a new server?",
+          "interview_a": "The client proves possession of the private key by signing a server challenge; the server verifies the signature against authorized_keys — the private key never crosses the network. First three hardening steps: key-only SSH with root login disabled, firewall default-deny with minimal open ports, and prompt patching with unneeded services removed."
+        },
+        {
+          "id": "m18",
+          "name": "Kernel Modules & Boot",
+          "summary": "Kernel modules, /proc and /sys, and the boot sequence.",
+          "topics": [
+            {
+              "name": "Kernel modules",
+              "subtopics": [
+                {
+                  "name": "Loadable drivers",
+                  "points": [
+                    "Drivers compiled as modules keep the core kernel lean; hardware support plugs in at runtime",
+                    "lsmod lists loaded modules; modinfo shows a module's details and parameters",
+                    "modprobe loads a module (resolving dependencies); modprobe -r unloads it",
+                    "Modules live under /lib/modules/$(uname -r)/; depmod rebuilds dependency maps"
+                  ]
+                },
+                {
+                  "name": "Module autoloading",
+                  "points": [
+                    "Files in /etc/modules-load.d/ list modules to load at boot",
+                    "Blacklists in /etc/modprobe.d/ prevent unwanted drivers from loading",
+                    "Rebuild the initramfs after touching early-boot modules or the change may not apply"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "/proc and /sys",
+              "subtopics": [
+                {
+                  "name": "Kernel interfaces as files",
+                  "points": [
+                    "/proc: process info plus kernel stats — cpuinfo, meminfo, per-PID directories",
+                    "/sys: the kernel object model — devices, drivers, and subsystems as a tree",
+                    "Both are RAM-backed virtual filesystems: zero disk usage, instant kernel truth",
+                    "Some /sys files are writable tunables — echoing values changes live kernel behavior"
+                  ]
+                },
+                {
+                  "name": "Handy one-liners",
+                  "points": [
+                    "grep 'model name' /proc/cpuinfo | head -1 identifies the CPU",
+                    "head -3 /proc/meminfo gives a quick memory overview",
+                    "ls /sys/class/net/ lists network interfaces as kernel objects"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "The boot sequence",
+              "subtopics": [
+                {
+                  "name": "Power button to PID 1",
+                  "points": [
+                    "Firmware (BIOS/UEFI) runs POST, then hands off to the bootloader",
+                    "GRUB shows the menu and loads the kernel plus initramfs into memory",
+                    "initramfs: a tiny early filesystem carrying the drivers needed to find the real root",
+                    "The kernel initializes hardware, mounts the real root filesystem, and starts PID 1 (systemd)"
+                  ]
+                },
+                {
+                  "name": "systemd takes over",
+                  "points": [
+                    "systemd reaches the default target (multi-user or graphical) and starts all enabled units",
+                    "The login prompt appears once the target's dependencies are satisfied",
+                    "Check or change the default with systemctl get-default / set-default"
+                  ]
+                },
+                {
+                  "name": "Reading the boot story",
+                  "points": [
+                    "dmesg shows the kernel ring buffer — hardware detection in chronological boot order",
+                    "journalctl -b shows this boot's complete systemd story",
+                    "Boot trouble? Edit the GRUB entry at boot (press e) or pick an older kernel from the menu"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "lsmod",
+            "modprobe",
+            "modprobe -r",
+            "modinfo",
+            "depmod",
+            "uname -r",
+            "dmesg",
+            "systemctl get-default",
+            "systemctl set-default",
+            "ls -l /sbin/init",
+            "journalctl -b"
+          ],
+          "lab": "Run lsmod | head, pick a non-critical module, inspect it with modinfo, then unload and reload it (modprobe -r / modprobe) inside a VM. Check your default systemd target, list available targets, and read the first 30 lines of dmesg to identify kernel hardware-detection messages.",
+          "lab_expected": "You understand that drivers are loadable modules and you can read the boot story from firmware to login prompt.",
+          "interview_q": "Describe what happens between pressing the power button and the login prompt.",
+          "interview_a": "Firmware POST, then GRUB loads the kernel and initramfs. The kernel initializes hardware and mounts the real root filesystem, then hands control to systemd (PID 1). systemd reaches the default target (e.g. multi-user.target) and presents the login prompt."
+        },
+        {
+          "id": "m19",
+          "name": "Performance & Troubleshooting",
+          "summary": "Reading system metrics and troubleshooting like a professional.",
+          "topics": [
+            {
+              "name": "Load average",
+              "subtopics": [
+                {
+                  "name": "What it means",
+                  "points": [
+                    "The 1, 5, and 15-minute averages of runnable plus uninterruptible processes — system demand",
+                    "Rule of thumb: sustained load above the CPU core count means queuing",
+                    "Load 8 on 4 cores is overloaded; load 8 on 16 cores is comfortable",
+                    "uptime displays it instantly — the first command on any slow box"
+                  ]
+                },
+                {
+                  "name": "Reading the three numbers",
+                  "points": [
+                    "The 1, 5, and 15-minute trio shows trend — rising means load is growing",
+                    "Compare against nproc output — the core count is your yardstick",
+                    "High load with low CPU percent usually means D-state processes stuck on I/O"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "The ordered diagnostic check",
+              "subtopics": [
+                {
+                  "name": "The sequence",
+                  "points": [
+                    "uptime first — load averages versus core count tells if the box is actually busy",
+                    "top/htop — who eats CPU and RAM; watch %wa for I/O wait",
+                    "free -h — memory and swap pressure; active swapping means pain",
+                    "df -h plus iostat for disk full or saturation; ss -tulnp and systemctl confirm services listen and run",
+                    "journalctl and dmesg last — the logs get the final word; metrics first, hypotheses second"
+                  ]
+                },
+                {
+                  "name": "Document as you go",
+                  "points": [
+                    "Keep a timestamped timeline of symptoms observed and commands run",
+                    "Write the incident note BEFORE you forget: symptom, cause, fix",
+                    "Patterns across incidents reveal systemic fixes — the senior-engineer habit"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Key tools in depth",
+              "subtopics": [
+                {
+                  "name": "Reading top",
+                  "points": [
+                    "us = user CPU, sy = system CPU, wa = I/O wait — high wa means a storage bottleneck",
+                    "Sort by %MEM to catch memory leaks; TIME+ reveals cumulative CPU hogs",
+                    "Load averages sit top-right — correlate them with what the process list shows"
+                  ]
+                },
+                {
+                  "name": "vmstat and iostat",
+                  "points": [
+                    "vmstat 1: one line per second covering procs, memory, swap (si/so), I/O (bi/bo), CPU",
+                    "iostat -x: per-device stats — %util near 100% means the disk is saturated",
+                    "Needs the sysstat package on some distros"
+                  ]
+                },
+                {
+                  "name": "Deeper inspection",
+                  "points": [
+                    "lsof -i :8080 reveals exactly which process holds a port",
+                    "ps aux --sort=-%cpu gives a static ranked snapshot for reports",
+                    "strace -p PID shows live system calls — powerful, use carefully in production"
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Troubleshooting methodology",
+              "subtopics": [
+                {
+                  "name": "The method",
+                  "points": [
+                    "Define the symptom precisely — 'slow' is not a definition",
+                    "Reproduce it reliably before changing anything",
+                    "Isolate layer by layer: network, disk, memory, application",
+                    "Form ONE hypothesis, test it, verify the fix, then document symptom, cause, and fix",
+                    "Change one thing at a time and keep a timeline — guessing in circles is the expensive failure mode"
+                  ]
+                },
+                {
+                  "name": "Classic scenarios",
+                  "points": [
+                    "Disk full: df -h, then du -sx /* to find the hog, lsof for deleted-but-open files",
+                    "Out of memory: dmesg for OOM-killer lines, free -h for pressure evidence",
+                    "Runaway CPU: top to identify, kill -15 first, escalate to -9 only if needed",
+                    "Service down: systemctl status, then journalctl -u, then config, ports, permissions"
+                  ]
+                }
+              ]
+            }
+          ],
+          "commands": [
+            "uptime",
+            "free -h",
+            "df -h",
+            "df -i",
+            "du -sh",
+            "top",
+            "htop",
+            "vmstat 1",
+            "iostat -x",
+            "ps aux --sort=-%cpu",
+            "lsof",
+            "strace"
+          ],
+          "lab": "Capstone break/fix on a lab VM: a partner (or a setup script) introduces 3 faults — (1) a runaway yes > /dev/null process, (2) a disk filled with a junk file, (3) a stopped web service. Diagnose each using only uptime, top, df -h/du, systemctl status, and journalctl; fix all three; write a 5-line incident note per fault (symptom, cause, fix).",
+          "lab_expected": "You follow a repeatable method instead of guessing, and you reach for metrics and logs before Stack Overflow — the DevOps-ready mindset.",
+          "interview_q": "A production server is slow. Walk me through exactly what you check, in order.",
+          "interview_a": "uptime (load averages vs CPU count), then top/htop (who is eating CPU/RAM, check I/O wait), free -h (memory and swap pressure), df -h plus iostat (disk full or I/O-bound), ss and service checks if app-specific, and journalctl/dmesg for errors. Metrics first, hypotheses second."
+        }
+      ]
+    }
+  ]
+}
