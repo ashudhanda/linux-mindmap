@@ -222,10 +222,10 @@ header>*{pointer-events:auto}
     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#a1a1aa" stroke-width="2.4" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
     <input id="search" type="text" placeholder="Search… (Enter)" autocomplete="off">
   </div>
-  <button class="hbtn" id="themeBtn" title="Light / dark theme">☀</button>
-  <button class="hbtn" id="zoomIn" title="Zoom in">+</button>
-  <button class="hbtn" id="zoomOut" title="Zoom out">−</button>
-  <button class="hbtn wide" id="fitBtn" title="Fit to screen">⤢ Fit</button>
+  <button class="hbtn" id="themeBtn" title="Light / dark theme" aria-label="Toggle light / dark theme">☀</button>
+  <button class="hbtn" id="zoomIn" title="Zoom in" aria-label="Zoom in">+</button>
+  <button class="hbtn" id="zoomOut" title="Zoom out" aria-label="Zoom out">−</button>
+  <button class="hbtn wide" id="fitBtn" title="Fit to screen" aria-label="Fit to screen">⤢ Fit</button>
 </header>
 
 <div id="stage">
@@ -241,7 +241,7 @@ header>*{pointer-events:auto}
 </div>
 
 <aside id="panel">
-  <button class="panel-close" id="panelClose">✕</button>
+  <button class="panel-close" id="panelClose" aria-label="Close panel">✕</button>
   <div class="panel-head"><div class="kicker" id="pKicker"></div><h2 id="pTitle"></h2></div>
   <div class="panel-body" id="pBody"></div>
 </aside>
