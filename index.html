@@ -620,6 +620,27 @@ let savedTheme='dark';
 try{savedTheme=localStorage.getItem('lm-theme')||'dark';}catch(e){}
 setTheme(savedTheme);
 
+
+/* ---------------- deep links: #m7 opens that module on load ---------------- */
+function openFromHash(){
+  const id=(location.hash||'').replace(/^#/,'').toLowerCase();
+  if(!id)return;
+  const n=idMap.get(id);
+  if(!n)return;
+  let p=n.parent;
+  while(p){p.expanded=true;p=p.parent;}
+  render(false);
+  const r=svg.getBoundingClientRect();
+  const k=Math.max(view.k,.85);
+  view.k=k;
+  view.x=r.width/2-n.x*k;view.y=r.height/2-n.y*k;
+  userMoved=true;applyView();
+  const el=gNodes.querySelector('[data-id="'+n.id+'"]');
+  if(el){el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),2400);}
+  if(n.type==='module')openModulePanel(n);
+  else if(n.type==='sub')openSubPanel(n);
+}
+
 /* ---------------- boot ---------------- */
 fetch('data/syllabus.json')
   .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
@@ -627,7 +648,7 @@ fetch('data/syllabus.json')
     tree=build(data);
     render(true);
     firstRender=false;
-    requestAnimationFrame(()=>setTimeout(fitView,60));
+    requestAnimationFrame(()=>setTimeout(()=>{fitView();openFromHash();},60));
     setTimeout(()=>toast('Click the LINUX MASTERY box ⚡'),1400);
   })
   .catch(err=>{
