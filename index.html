@@ -583,11 +583,21 @@ document.getElementById('search').addEventListener('keydown',e=>{
   if(e.key!=='Enter')return;
   const q=e.target.value.trim().toLowerCase();
   if(!q)return;
+  // Names alone missed the README's promise: search also covers module
+  // summaries + essential commands and subtopic key points.
+  function matches(n,q){
+    if(n.name.toLowerCase().includes(q))return true;
+    const d=n.data||{};
+    if((d.summary||'').toLowerCase().includes(q))return true;
+    if((d.commands||[]).some(c=>String(c).toLowerCase().includes(q)))return true;
+    if((n.points||[]).some(p=>String(p).toLowerCase().includes(q)))return true;
+    return false;
+  }
   let found=null;
   const queue=[tree];
   while(queue.length&&!found){
     const n=queue.shift();
-    if(n!==tree&&(n.name.toLowerCase().includes(q)))found=n;
+    if(n!==tree&&matches(n,q))found=n;
     queue.push(...n.children);
   }
   document.querySelectorAll('.node.pulse').forEach(el=>el.classList.remove('pulse'));
