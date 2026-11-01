@@ -10,7 +10,7 @@ An animated, monochrome (Vercel-style black & white) interactive mind map of the
 - Every module expands into **topics → subtopics → key points** (4 levels deep)
 - Each module also carries its **essential commands**, a **hands-on lab**, and the **top DevOps interview question** with a strong-answer guide
 - **Search** across every topic and command
-- **Progress tracking** — modules you've opened are counted (saved in your browser)
+- **Visible-box counter** — the bottom-right pill counts how many boxes are currently on screen (not saved in your browser; per-module progress tracking is not implemented)
 - **Expand all / collapse all**, deep links (`#m7`), light-on-dark monochrome design with full motion
 
 ## Structure
