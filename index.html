@@ -332,6 +332,11 @@ function setT(g,x,y){g.style.transform='translate('+x+'px,'+y+'px)';}
 function makeNode(n){
   const g=document.createElementNS(NS,'g');
   g.setAttribute('class','node '+n.type); g.dataset.id=n.id;
+  // Keyboard users must reach boxes too: a focusable button role, with
+  // Enter/Space handled below by reusing the click handler.
+  g.setAttribute('role','button');
+  g.setAttribute('tabindex','0');
+  g.setAttribute('aria-label',n.name);
   const W=SIZE[n.type][0],H=SIZE[n.type][1];
   const box=document.createElementNS(NS,'rect');
   box.setAttribute('class','box');
@@ -554,6 +559,15 @@ gNodes.addEventListener('click',e=>{
   }else if(n.type==='sub'){
     openSubPanel(n);
   }
+});
+
+/* Keyboard activation for focused boxes: same action as clicking. */
+gNodes.addEventListener('keydown',e=>{
+  if(e.key!=='Enter'&&e.key!==' '&&e.key!=='Spacebar')return;
+  const gel=e.target.closest('.node');
+  if(!gel)return;
+  e.preventDefault();
+  gel.dispatchEvent(new MouseEvent('click',{bubbles:true}));
 });
 
 /* ---------------- panel ---------------- */
