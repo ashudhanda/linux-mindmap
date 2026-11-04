@@ -587,9 +587,11 @@ document.getElementById('search').addEventListener('keydown',e=>{
   const q=e.target.value.trim().toLowerCase();
   if(!q)return;
   // Names alone missed the README's promise: search also covers module
-  // summaries + essential commands and subtopic key points.
+  // summaries + essential commands and subtopic key points, plus the
+  // subtitle shown under each box (phase taglines, module summaries).
   function matches(n,q){
     if(n.name.toLowerCase().includes(q))return true;
+    if((n.sub||'').toLowerCase().includes(q))return true;
     const d=n.data||{};
     if((d.summary||'').toLowerCase().includes(q))return true;
     if((d.commands||[]).some(c=>String(c).toLowerCase().includes(q)))return true;
