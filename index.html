@@ -268,6 +268,10 @@ const svg=document.getElementById('canvas'), viewport=document.getElementById('v
       stage=document.getElementById('stage'), panel=document.getElementById('panel'),
       pKicker=document.getElementById('pKicker'), pTitle=document.getElementById('pTitle'), pBody=document.getElementById('pBody');
 
+/* Layout grid: VGAP is the vertical gap between tree depths; LEAF is the
+   horizontal slot each visible leaf column gets. layout() gives every
+   visible leaf one LEAF slot, then centers each parent over its children
+   — so a collapsed subtree occupies a single slot, not its full width. */
 const VGAP=168, LEAF=228;
 const SIZE={root:[220,62],phase:[240,58],module:[222,54],topic:[205,48],sub:[198,44]};
 const LABEL_MAX={root:20,phase:26,module:26,topic:27,sub:28};
@@ -320,6 +324,9 @@ function layout(){
     n.y=n.depth*VGAP;
   })(tree);
 }
+/* Connector between a parent box (bottom edge) and a child box (top
+   edge): a vertical S-curve whose control points sit halfway down, so
+   links never cut diagonally across neighbouring boxes. */
 function linkPath(p,c){
   const pw=SIZE[p.type][1]/2, ch=SIZE[c.type][1]/2;
   const x1=p.x,y1=p.y+pw, x2=c.x,y2=c.y-ch, my=(y1+y2)/2;
