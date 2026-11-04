@@ -564,7 +564,10 @@ document.getElementById('panelClose').addEventListener('click',()=>panel.classLi
 document.addEventListener('keydown',e=>{if(e.key==='Escape')panel.classList.remove('open');});
 
 function openSubPanel(n){
-  const path=n.parent.parent.name.split('·')[0].trim()+' → '+n.parent.name;
+  // Use the full module name (e.g. "M7 · Networking"): the old
+  // split('·')[0] kept only the "M7" prefix, dropping the module title
+  // from the panel kicker.
+  const path=n.parent.parent.name+' → '+n.parent.name;
   openPanel(path,n.name,
     '<div class="psec">Key points</div>'+
     n.points.map(p=>'<div class="pt">'+fmt(p)+'</div>').join(''));
