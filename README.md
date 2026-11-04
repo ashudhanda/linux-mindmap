@@ -13,6 +13,12 @@ An animated, monochrome (Vercel-style black & white) interactive mind map of the
 - **Visible-box counter** — the bottom-right pill counts how many boxes are currently on screen (not saved in your browser; per-module progress tracking is not implemented)
 - **Expand all / collapse all**, deep links (`#m7`), light-on-dark monochrome design with full motion
 
+## Keyboard, deep links & search
+
+- **Keyboard:** Tab to any box and press Enter/Space to expand it or open its details, just like clicking. Esc closes the details panel.
+- **Deep links:** link straight to a module, e.g. `https://ashudhanda.github.io/linux-mindmap/#m7` opens module M7 on load.
+- **Search (Enter):** matches topic names, phase taglines, module summaries, essential commands, and subtopic key points.
+
 ## Structure
 
 ```
