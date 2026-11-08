@@ -254,7 +254,7 @@ header>*{pointer-events:auto}
   </svg>
 </div>
 
-<aside id="panel" role="dialog" aria-modal="true" aria-label="Details panel">
+<aside id="panel" role="dialog" aria-label="Details panel">
   <button class="panel-close" id="panelClose" aria-label="Close panel">✕</button>
   <div class="panel-head"><div class="kicker" id="pKicker"></div><h2 id="pTitle"></h2></div>
   <div class="panel-body" id="pBody"></div>
@@ -593,12 +593,31 @@ gNodes.addEventListener('keydown',e=>{
 });
 
 /* ---------------- panel ---------------- */
+/* Focus stays usable with the panel: opening it moves focus to the close
+   button, closing returns focus to whatever opened it — otherwise keyboard
+   users are left tabbing from wherever focus happened to be. The panel is
+   not modal (the map behind it stays interactive), so it carries no
+   aria-modal. */
+let lastFocus=null;
 function openPanel(kicker,title,html){
+  lastFocus=document.activeElement;
   pKicker.textContent=kicker;pTitle.textContent=title;pBody.innerHTML=html;
   panel.classList.add('open');
+  document.getElementById('panelClose').focus();
 }
-document.getElementById('panelClose').addEventListener('click',()=>panel.classList.remove('open'));
-document.addEventListener('keydown',e=>{if(e.key==='Escape')panel.classList.remove('open');});
+function closePanel(){
+  panel.classList.remove('open');
+  let el=lastFocus;
+  // A re-render while the panel was open replaces the node element, so a
+  // stored-but-detached element is re-resolved by its id before refocusing.
+  if(el&&!document.contains(el)&&el.dataset&&el.dataset.id){
+    el=gNodes.querySelector('[data-id="'+el.dataset.id+'"]');
+  }
+  if(el&&document.contains(el))el.focus({preventScroll:true});
+  lastFocus=null;
+}
+document.getElementById('panelClose').addEventListener('click',closePanel);
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closePanel();});
 
 function openSubPanel(n){
   // Use the full module name (e.g. "M7 · Networking"): the old
