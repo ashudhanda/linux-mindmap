@@ -533,6 +533,16 @@ function ensureKidsVisible(n){
   userMoved=true;applyView();
 }
 
+/* Center the view on one box at a readable zoom (shared by search and
+   deep links, which used to duplicate this math). */
+function centerOn(n){
+  const r=svg.getBoundingClientRect();
+  const k=Math.max(view.k,.85);
+  view.k=k;
+  view.x=r.width/2-n.x*k;view.y=r.height/2-n.y*k;
+  userMoved=true;applyView();
+}
+
 /* pan (drag threshold: only capture the pointer once it is a real drag, so clicks on nodes still fire) */
 let panning=false,dragging=false,sx=0,sy=0,vx=0,vy=0,pid=null;
 stage.addEventListener('pointerdown',e=>{
@@ -662,11 +672,7 @@ document.getElementById('search').addEventListener('keydown',e=>{
   let p=found.parent;
   while(p){p.expanded=true;p=p.parent;}
   render(false);
-  const r=svg.getBoundingClientRect();
-  const k=Math.max(view.k,.85);
-  view.k=k;
-  view.x=r.width/2-found.x*k;view.y=r.height/2-found.y*k;
-  userMoved=true;applyView();
+  centerOn(found);
   const el=gNodes.querySelector('[data-id="'+found.id+'"]');
   if(el){el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),2400);}
   if(found.type==='sub')openSubPanel(found);
@@ -697,11 +703,7 @@ function openFromHash(){
   let p=n.parent;
   while(p){p.expanded=true;p=p.parent;}
   render(false);
-  const r=svg.getBoundingClientRect();
-  const k=Math.max(view.k,.85);
-  view.k=k;
-  view.x=r.width/2-n.x*k;view.y=r.height/2-n.y*k;
-  userMoved=true;applyView();
+  centerOn(n);
   const el=gNodes.querySelector('[data-id="'+n.id+'"]');
   if(el){el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),2400);}
   if(n.type==='module')openModulePanel(n);
