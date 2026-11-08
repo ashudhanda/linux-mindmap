@@ -94,6 +94,11 @@ header>*{pointer-events:auto}
 .node{cursor:pointer}
 .node .box{transition:all .25s ease}
 .node:hover .box{stroke:#fff;stroke-width:2}
+/* Keyboard focus must be visible: boxes are tabbable (role=button), but
+   nothing showed which one had focus. The box outline is the indicator,
+   so the default outline is suppressed in favour of it. */
+.node:focus{outline:none}
+.node:focus-visible .box{stroke:#fff;stroke-width:2.5}
 .node.dim{opacity:.12;pointer-events:none}
 .node text{font-family:var(--font);pointer-events:none}
 .node .n-label{fill:#fff;font-weight:600}
@@ -183,6 +188,7 @@ header>*{pointer-events:auto}
 [data-theme="light"] .node.root .n-label{fill:#fff}
 [data-theme="light"] .node.root .n-sub{fill:#d4d4d8}
 [data-theme="light"] .node:hover .box{stroke:#000;stroke-width:2}
+[data-theme="light"] .node:focus-visible .box{stroke:#000;stroke-width:2.5}
 [data-theme="light"] .node .info-dot{fill:#e4e4e7;stroke:rgba(0,0,0,.3)}
 [data-theme="light"] .node .info-dot:hover{fill:#09090b}
 [data-theme="light"] .node .info-dot text{fill:#09090b}
