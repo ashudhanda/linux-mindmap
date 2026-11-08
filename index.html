@@ -385,6 +385,11 @@ function makeNode(n){
 
 function render(animateLinks){
   layout();
+  // Keep keyboard focus on the same box across re-renders: render() rebuilds
+  // every node element, which used to drop focus to <body> whenever a
+  // keyboard user expanded or collapsed a box with Enter/Space.
+  const focusedId=document.activeElement&&document.activeElement.dataset
+    ?document.activeElement.dataset.id:null;
   const prev=new Map();
   gNodes.querySelectorAll('.node').forEach(el=>{
     prev.set(el.dataset.id,{x:parseFloat(el.dataset.x),y:parseFloat(el.dataset.y)});
@@ -417,6 +422,10 @@ function render(animateLinks){
       }));
     }else setT(g,n.x,n.y);
   });
+  if(focusedId){
+    const refocused=gNodes.querySelector('[data-id="'+focusedId+'"]');
+    if(refocused)refocused.focus({preventScroll:true});
+  }
   document.getElementById('visCount').textContent=order.length;
 }
 
