@@ -655,6 +655,14 @@ function openModulePanel(n){
 
 /* ---------------- search ---------------- */
 document.getElementById('search').addEventListener('keydown',e=>{
+  if(e.key==='Escape'){
+    // Standard search-field behaviour: Esc clears the query. With a
+    // non-empty query the panel stays put (stopPropagation keeps the
+    // document-level Esc handler from closing it mid-typing); with an
+    // empty query Esc falls through and closes the panel as usual.
+    if(e.target.value){e.target.value='';e.preventDefault();e.stopPropagation();}
+    return;
+  }
   if(e.key!=='Enter')return;
   const q=e.target.value.trim().toLowerCase();
   if(!q)return;
