@@ -433,6 +433,11 @@ function render(animateLinks){
     const refocused=gNodes.querySelector('[data-id="'+focusedId+'"]');
     if(refocused)refocused.focus({preventScroll:true});
   }
+  // "Click the LINUX MASTERY box" is stale once the root is expanded, and
+  // relevant again if it is collapsed — render() is the one place that
+  // runs on every expand/collapse.
+  const hint=document.getElementById('hint');
+  if(hint)hint.style.display=tree.expanded?'none':'';
   document.getElementById('visCount').textContent=order.length;
 }
 
