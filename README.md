@@ -15,9 +15,9 @@ An animated, monochrome (Vercel-style black & white) interactive mind map of the
 
 ## Keyboard, deep links & search
 
-- **Keyboard:** Tab to any box and press Enter/Space to expand it or open its details, just like clicking. Esc closes the details panel.
+- **Keyboard:** Tab to any box and press Enter/Space to expand it or open its details, just like clicking. Screen readers hear whether a box is expanded or collapsed. Esc closes the details panel.
 - **Deep links:** link straight to a module, e.g. `https://ashudhanda.github.io/linux-mindmap/#m7` opens module M7 on load.
-- **Search (Enter):** matches topic names, phase taglines, module summaries, essential commands, and subtopic key points.
+- **Search (Enter):** matches topic names, phase taglines, module summaries, essential commands, and subtopic key points. Enter jumps to the first match and moves keyboard focus onto it, so Enter/Space can expand it right away. Esc in the search box clears the query (with an empty query, Esc closes the details panel instead).
 
 ## Structure
 
