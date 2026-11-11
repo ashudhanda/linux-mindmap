@@ -679,7 +679,14 @@ document.getElementById('search').addEventListener('keydown',e=>{
   render(false);
   centerOn(found);
   const el=gNodes.querySelector('[data-id="'+found.id+'"]');
-  if(el){el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),2400);}
+  if(el){
+    el.classList.add('pulse');
+    // Keyboard users pressed Enter in the search box: put focus on the
+    // match itself, so Enter/Space can expand it without tabbing through
+    // the whole header first.
+    el.focus({preventScroll:true});
+    setTimeout(()=>el.classList.remove('pulse'),2400);
+  }
   if(found.type==='sub')openSubPanel(found);
 });
 
