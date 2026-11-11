@@ -330,8 +330,10 @@ function layout(){
    edge): a vertical S-curve whose control points sit halfway down, so
    links never cut diagonally across neighbouring boxes. */
 function linkPath(p,c){
-  const pw=SIZE[p.type][1]/2, ch=SIZE[c.type][1]/2;
-  const x1=p.x,y1=p.y+pw, x2=c.x,y2=c.y-ch, my=(y1+y2)/2;
+  // Half-heights, not widths: the link runs from the parent's bottom edge
+  // to the child's top edge (SIZE[*][1] is the box height).
+  const ph=SIZE[p.type][1]/2, chh=SIZE[c.type][1]/2;
+  const x1=p.x,y1=p.y+ph, x2=c.x,y2=c.y-chh, my=(y1+y2)/2;
   return 'M '+x1+','+y1+' C '+x1+','+my+' '+x2+','+my+' '+x2+','+y2;
 }
 
