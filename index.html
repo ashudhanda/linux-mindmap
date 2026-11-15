@@ -352,6 +352,12 @@ function makeNode(n){
   // every render, so this always reflects the current state.
   if(n.children.length)g.setAttribute('aria-expanded',String(n.expanded));
   const W=SIZE[n.type][0],H=SIZE[n.type][1];
+  // Three rows share one small box, so stack them with room: the old
+  // subtitle (y=15) and expand cue (y=H/2-9) printed on top of each
+  // other on every expandable box ("3 subtopics" over "▾ 3 ↓").
+  const hasKids=n.children.length>0;
+  const labelY=hasKids?(n.sub?-13:-3):(n.sub?-3:5);
+  const subY=hasKids?3:15;
   const box=document.createElementNS(NS,'rect');
   box.setAttribute('class','box');
   box.setAttribute('x',-W/2);box.setAttribute('y',-H/2);
@@ -359,14 +365,14 @@ function makeNode(n){
   g.appendChild(box);
   const label=document.createElementNS(NS,'text');
   label.setAttribute('class','n-label');label.setAttribute('text-anchor','middle');
-  label.setAttribute('y',n.sub?-3:5);label.setAttribute('font-size',n.type==='root'?17:13.5);
+  label.setAttribute('y',labelY);label.setAttribute('font-size',n.type==='root'?17:13.5);
   label.textContent=trunc(n.name,LABEL_MAX[n.type]);
   const title=document.createElementNS(NS,'title');title.textContent=n.name;label.appendChild(title);
   g.appendChild(label);
   if(n.sub){
     const sub=document.createElementNS(NS,'text');
     sub.setAttribute('class','n-sub');sub.setAttribute('text-anchor','middle');
-    sub.setAttribute('y',15);sub.setAttribute('font-size',10.5);
+    sub.setAttribute('y',subY);sub.setAttribute('font-size',10.5);
     sub.textContent=trunc(n.sub,LABEL_MAX[n.type]+6);
     g.appendChild(sub);
   }
@@ -383,7 +389,7 @@ function makeNode(n){
   if(n.children.length){
     const ind=document.createElementNS(NS,'text');
     ind.setAttribute('class','n-sub');ind.setAttribute('text-anchor','middle');
-    ind.setAttribute('y',H/2-9);ind.setAttribute('font-size',11);
+    ind.setAttribute('y',H/2-7);ind.setAttribute('font-size',11);
     ind.textContent=n.expanded?'▴ collapse':'▾ '+n.children.length+' ↓';
     g.appendChild(ind);
   }
