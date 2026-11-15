@@ -457,6 +457,11 @@ function render(animateLinks){
 let cinematic=false;
 function playCinematic(n){
   if(cinematic)return;cinematic=true;
+  // Motion-sensitive users asked for less: skip the roaming tracers and
+  // expand the root at once instead of playing the animation.
+  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    n.expanded=true;render(true);ensureKidsVisible(n);cinematic=false;return;
+  }
   // where will the phases land? (compute without showing)
   n.expanded=true;layout();
   const targets=n.children.map(c=>({x:c.x,y:c.y}));
