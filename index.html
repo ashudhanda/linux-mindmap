@@ -86,7 +86,10 @@ header>*{pointer-events:auto}
 .hbtn.wide{width:auto;padding:0 16px;font-size:13px}
 
 /* stage */
-#stage{position:fixed;inset:0;z-index:1;cursor:grab}
+#stage{position:fixed;inset:0;z-index:1;cursor:grab;touch-action:none}
+/* touch-action:none: without it a touch drag is claimed by the browser
+   (scroll/refresh gesture) and the pointer events needed to pan never
+   arrive, so the map cannot be dragged on touch screens. */
 #stage.panning{cursor:grabbing}
 #canvas{width:100%;height:100%;display:block}
 #viewport{transition:transform .65s cubic-bezier(.22,1,.36,1);transform-origin:0 0}
