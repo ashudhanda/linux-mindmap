@@ -10,6 +10,8 @@ An animated, monochrome (Vercel-style black & white) interactive mind map of the
 - Every module expands into **topics → subtopics → key points** (4 levels deep)
 - Each module also carries its **essential commands**, a **hands-on lab**, and the **top DevOps interview question** with a strong-answer guide
 - **Search** across every topic and command
+- **Touch:** drag to pan on touch screens
+- **Reduced motion:** with `prefers-reduced-motion` on, clicking the root box expands it at once instead of playing the ignite animation
 - **Box counter** — the bottom-right pill counts how many boxes are currently shown (rendered nodes; panning them off-screen does not change the count). Per-module progress tracking is not implemented.
 - **Deep links** (`#m7`), light-on-dark monochrome design with full motion
 
