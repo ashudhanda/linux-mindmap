@@ -134,9 +134,13 @@ header>*{pointer-events:auto}
 #panel{position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);z-index:20;
   background:var(--panel);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
   border-left:1px solid var(--border-strong);
-  transform:translateX(102%);transition:transform .5s cubic-bezier(.22,1,.36,1);
+  transform:translateX(102%);transition:transform .5s cubic-bezier(.22,1,.36,1),visibility 0s .5s;
+  /* Off-canvas via transform alone stays tabbable: hide it so keyboard
+     users cannot tab into the invisible close button. The visibility
+     delay keeps it present until the slide-out finishes. */
+  visibility:hidden;
   display:flex;flex-direction:column;overflow:hidden}
-#panel.open{transform:none}
+#panel.open{transform:none;visibility:visible;transition:transform .5s cubic-bezier(.22,1,.36,1),visibility 0s 0s}
 .panel-head{padding:22px 24px 16px;border-bottom:1px solid var(--border)}
 .panel-head .kicker{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
 .panel-head h2{font-size:20px;font-weight:700;letter-spacing:-.02em;line-height:1.3}
