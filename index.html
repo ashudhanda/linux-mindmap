@@ -729,6 +729,9 @@ const themeBtn=document.getElementById('themeBtn');
 function setTheme(t){
   document.documentElement.dataset.theme=t;
   themeBtn.textContent=(t==='light')?'☾':'☀';
+  // The icon alone does not say which theme is active: expose it so
+  // screen readers announce the current state.
+  themeBtn.setAttribute('aria-pressed',String(t==='light'));
   try{localStorage.setItem('lm-theme',t);}catch(e){}
 }
 themeBtn.addEventListener('click',()=>{
