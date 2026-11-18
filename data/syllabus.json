@@ -1684,7 +1684,7 @@
                 {
                   "name": "Everyday ip one-liners",
                   "points": [
-                    "ip -br a gives a terse one-line-per-interface summary for scripts",
+                    "ip -br a is the script-friendly form — parse its one-line-per-interface output instead of scraping ip a",
                     "ip r get 8.8.8.8 shows which route and interface a packet would take",
                     "ip link set eth0 up/down administratively toggles interfaces"
                   ]
