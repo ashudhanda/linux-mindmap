@@ -8,7 +8,7 @@ An animated, monochrome (Vercel-style black & white) interactive mind map of the
 
 - **5 phases, 19 modules**, flowing top-to-bottom
 - Every module expands into **topics → subtopics → key points** (4 levels deep)
-- Each module also carries its **essential commands**, a **hands-on lab**, and the **top DevOps interview question** with a strong-answer guide
+- Each module also carries its **essential commands**, a **hands-on lab** with the **expected outcome**, and the **top DevOps interview question** with a strong-answer guide
 - **Search** across every topic and command
 - **Touch:** drag to pan on touch screens
 - **Reduced motion:** with `prefers-reduced-motion` on, clicking the root box expands it at once instead of playing the ignite animation
@@ -19,7 +19,7 @@ An animated, monochrome (Vercel-style black & white) interactive mind map of the
 
 - **Keyboard:** Tab to any box and press Enter/Space to expand it or open its details, just like clicking. Screen readers hear whether a box is expanded or collapsed. Esc closes the details panel.
 - **Deep links:** link straight to a module, e.g. `https://ashudhanda.github.io/linux-mindmap/#m7` opens module M7 on load.
-- **Search (Enter):** matches topic names, phase taglines, module summaries, essential commands, and subtopic key points. Enter jumps to the first match and moves keyboard focus onto it, so Enter/Space can expand it right away. Esc in the search box clears the query (with an empty query, Esc closes the details panel instead).
+- **Search (Enter):** matches topic names, phase taglines, module summaries, essential commands, hands-on labs, expected outcomes, interview Q&A, and subtopic key points. Enter jumps to the first match and moves keyboard focus onto it, so Enter/Space can expand it right away. Esc in the search box clears the query (with an empty query, Esc closes the details panel instead).
 
 ## Structure
 
