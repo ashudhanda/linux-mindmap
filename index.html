@@ -672,6 +672,7 @@ function openModulePanel(n){
     (d.summary?'<div class="plain">'+esc(d.summary)+'</div>':'')
     +((d.commands||[]).length?'<div class="psec">Essential commands</div><div class="cmds">'+d.commands.map(c=>'<code>'+esc(c)+'</code>').join('')+'</div>':'')
     +(d.lab?'<div class="psec">Hands-on lab</div><div class="plain">'+esc(d.lab)+'</div>':'')
+    +(d.lab_expected?'<div class="psec">Expected outcome</div><div class="plain">'+esc(d.lab_expected)+'</div>':'')
     +(d.interview_q?'<div class="psec">Top interview question</div><div class="qa"><b>Q. '+esc(d.interview_q)+'</b><br><br>'+fmt(d.interview_a||'')+'</div>':''));
 }
 
