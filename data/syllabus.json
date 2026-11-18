@@ -546,7 +546,7 @@
                 {
                   "name": "Link count, owner, and timestamps",
                   "points": [
-                    "Second field is the hard-link count — directories always show at least 2 (. and itself)",
+                    "Second field is the hard-link count — directories always show at least 2 (their own name, plus the '.' entry inside)",
                     "Owner and group columns show who controls the file — change with chown/chgrp",
                     "Timestamp shows mtime by default; ls -lu shows access time, --time-style=full-iso gives precision"
                   ]
