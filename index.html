@@ -758,6 +758,9 @@ function openFromHash(){
   if(!n)return;
   let p=n.parent;
   while(p){p.expanded=true;p=p.parent;}
+  // A phase/topic target is itself expandable: open it too, so #p2 / #m7t0
+  // shows the target's children instead of just centring on a closed box.
+  if(n.children.length)n.expanded=true;
   render(false);
   centerOn(n);
   const el=gNodes.querySelector('[data-id="'+n.id+'"]');
