@@ -774,6 +774,10 @@ function openFromHash(){
   else if(n.type==='sub')openSubPanel(n);
 }
 
+/* A deep link pasted or clicked while the page is already open should
+   work too — openFromHash used to run only once at boot. */
+window.addEventListener('hashchange', openFromHash);
+
 /* ---------------- boot ---------------- */
 fetch('data/syllabus.json')
   .then(r=>{if(!r.ok)throw new Error(r.status);return r.json();})
