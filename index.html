@@ -567,12 +567,15 @@ function ensureKidsVisible(n){
 }
 
 /* Center the view on one box at a readable zoom (shared by search and
-   deep links, which used to duplicate this math). */
-function centerOn(n){
+   deep links, which used to duplicate this math). reservePanel: the
+   details panel is about to open for this target (module/sub) — centre
+   on the area left of it, or the node lands hidden behind the panel. */
+function centerOn(n,reservePanel){
   const r=svg.getBoundingClientRect();
   const k=Math.max(view.k,.85);
+  const pw=(reservePanel||panel.classList.contains('open'))?panel.offsetWidth:0;
   view.k=k;
-  view.x=r.width/2-n.x*k;view.y=r.height/2-n.y*k;
+  view.x=(r.width-pw)/2-n.x*k;view.y=r.height/2-n.y*k;
   userMoved=true;applyView();
 }
 
@@ -727,7 +730,7 @@ document.getElementById('search').addEventListener('keydown',e=>{
   let p=found.parent;
   while(p){p.expanded=true;p=p.parent;}
   render(false);
-  centerOn(found);
+  centerOn(found,found.type==='sub');
   const el=gNodes.querySelector('[data-id="'+found.id+'"]');
   if(el){
     el.classList.add('pulse');
@@ -778,7 +781,7 @@ function openFromHash(){
   // shows the target's children instead of just centring on a closed box.
   if(n.children.length)n.expanded=true;
   render(false);
-  centerOn(n);
+  centerOn(n,n.type==='module'||n.type==='sub');
   const el=gNodes.querySelector('[data-id="'+n.id+'"]');
   if(el){el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),2400);}
   if(n.type==='module')openModulePanel(n);
