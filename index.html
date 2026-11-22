@@ -790,6 +790,11 @@ function openFromHash(){
   if(el){el.classList.add('pulse');setTimeout(()=>el.classList.remove('pulse'),2400);}
   if(n.type==='module')openModulePanel(n);
   else if(n.type==='sub')openSubPanel(n);
+  // A phase/topic target opens no panel: move keyboard focus onto the
+  // node itself, as search does for its match, so Enter/Space can expand
+  // it without tabbing through the whole header first. (Module/sub
+  // targets open a panel, which already takes focus to its close button.)
+  else if(el)el.focus({preventScroll:true});
 }
 
 /* A deep link pasted or clicked while the page is already open should
