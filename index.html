@@ -678,13 +678,16 @@ function openModulePanel(n){
 }
 
 /* ---------------- search ---------------- */
+/* Repeated Enter on the same query steps through the matches: a common
+   word can hit a dozen boxes, and only the first used to be reachable. */
+let lastQuery='', matchIdx=0;
 document.getElementById('search').addEventListener('keydown',e=>{
   if(e.key==='Escape'){
     // Standard search-field behaviour: Esc clears the query. With a
     // non-empty query the panel stays put (stopPropagation keeps the
     // document-level Esc handler from closing it mid-typing); with an
     // empty query Esc falls through and closes the panel as usual.
-    if(e.target.value){e.target.value='';e.preventDefault();e.stopPropagation();}
+    if(e.target.value){e.target.value='';lastQuery='';matchIdx=0;e.preventDefault();e.stopPropagation();}
     return;
   }
   if(e.key!=='Enter')return;
@@ -707,15 +710,20 @@ document.getElementById('search').addEventListener('keydown',e=>{
     if((n.points||[]).some(p=>String(p).toLowerCase().includes(q)))return true;
     return false;
   }
-  let found=null;
+  // Collect every match in breadth-first order (shallowest first), so the
+  // first Enter still lands where it always did.
+  const all=[];
   const queue=[tree];
-  while(queue.length&&!found){
+  while(queue.length){
     const n=queue.shift();
-    if(n!==tree&&matches(n,q))found=n;
+    if(n!==tree&&matches(n,q))all.push(n);
     queue.push(...n.children);
   }
   document.querySelectorAll('.node.pulse').forEach(el=>el.classList.remove('pulse'));
-  if(!found){toast('No match for "'+e.target.value.trim()+'"');return;}
+  if(!all.length){lastQuery='';matchIdx=0;toast('No match for "'+e.target.value.trim()+'"');return;}
+  if(q===lastQuery)matchIdx=(matchIdx+1)%all.length;
+  else{lastQuery=q;matchIdx=0;}
+  const found=all[matchIdx];
   let p=found.parent;
   while(p){p.expanded=true;p=p.parent;}
   render(false);
@@ -729,6 +737,7 @@ document.getElementById('search').addEventListener('keydown',e=>{
     el.focus({preventScroll:true});
     setTimeout(()=>el.classList.remove('pulse'),2400);
   }
+  if(all.length>1)toast('Match '+(matchIdx+1)+' of '+all.length);
   if(found.type==='sub')openSubPanel(found);
 });
 
