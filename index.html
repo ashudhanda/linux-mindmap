@@ -760,7 +760,9 @@ function openFromHash(){
   const id=(location.hash||'').replace(/^#/,'').toLowerCase();
   if(!id)return;
   const n=idMap.get(id);
-  if(!n)return;
+  // A mistyped or stale deep link used to do nothing at all: say so and
+  // point at a valid id instead of leaving the user staring at the root.
+  if(!n){toast('No module "'+id+'" — try #m1 … #m19');return;}
   let p=n.parent;
   while(p){p.expanded=true;p=p.parent;}
   // A phase/topic target is itself expandable: open it too, so #p2 / #m7t0
