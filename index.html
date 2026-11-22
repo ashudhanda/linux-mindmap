@@ -740,6 +740,10 @@ function setTheme(t){
   // The icon alone does not say which theme is active: expose it so
   // screen readers announce the current state.
   themeBtn.setAttribute('aria-pressed',String(t==='light'));
+  // The browser chrome (mobile address bar) uses theme-color: keep it in
+  // step with the theme instead of staying black on a light page.
+  const meta=document.querySelector('meta[name="theme-color"]');
+  if(meta)meta.setAttribute('content',t==='light'?'#fafafa':'#000000');
   try{localStorage.setItem('lm-theme',t);}catch(e){}
 }
 themeBtn.addEventListener('click',()=>{
