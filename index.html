@@ -636,6 +636,11 @@ gNodes.addEventListener('click',e=>{
     if(n.expanded)ensureKidsVisible(n);
   }else if(n.type==='sub'){
     openSubPanel(n);
+  }else{
+    // A childless box is still a focusable button: a topic with no
+    // subtopics (or a module with no topics) must say so instead of
+    // silently doing nothing on click/Enter.
+    toast('"'+n.name+'" has nothing inside yet');
   }
 });
 
@@ -688,17 +693,21 @@ function openSubPanel(n){
   // from the panel kicker.
   const path=n.parent.parent.name+' → '+n.parent.name;
   openPanel(path,n.name,
-    '<div class="psec">Key points</div>'+
-    n.points.map(p=>'<div class="pt">'+fmt(p)+'</div>').join(''));
+    n.points.length
+      ? '<div class="psec">Key points</div>'+
+        n.points.map(p=>'<div class="pt">'+fmt(p)+'</div>').join('')
+      : '<div class="plain">No key points listed for this subtopic yet.</div>');
 }
 function openModulePanel(n){
   const d=n.data||{};
-  openPanel('Module · interview proof',n.name,
-    (d.summary?'<div class="plain">'+esc(d.summary)+'</div>':'')
+  const html=(d.summary?'<div class="plain">'+esc(d.summary)+'</div>':'')
     +((d.commands||[]).length?'<div class="psec">Essential commands</div><div class="cmds">'+d.commands.map(c=>'<code>'+esc(c)+'</code>').join('')+'</div>':'')
     +(d.lab?'<div class="psec">Hands-on lab</div><div class="plain">'+esc(d.lab)+'</div>':'')
     +(d.lab_expected?'<div class="psec">Expected outcome</div><div class="plain">'+esc(d.lab_expected)+'</div>':'')
-    +(d.interview_q?'<div class="psec">Top interview question</div><div class="qa"><b>Q. '+esc(d.interview_q)+'</b><br><br>'+fmt(d.interview_a||'')+'</div>':''));
+    +(d.interview_q?'<div class="psec">Top interview question</div><div class="qa"><b>Q. '+esc(d.interview_q)+'</b><br><br>'+fmt(d.interview_a||'')+'</div>':'');
+  // A module with no details at all used to open a blank panel: say so.
+  openPanel('Module · interview proof',n.name,
+    html||'<div class="plain">No extra details for this module yet.</div>');
 }
 
 /* ---------------- search ---------------- */
