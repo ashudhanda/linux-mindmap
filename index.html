@@ -524,6 +524,17 @@ function finishCinematic(n,targets){
 
 /* ---------------- view controls ---------------- */
 function applyView(){viewport.style.transform='translate('+view.x+'px,'+view.y+'px) scale('+view.k+')';}
+/* Width the map may centre/fit into: the viewport minus the open
+   details panel — unless the panel covers (almost) the whole viewport
+   (narrow phone: the panel is 92vw), when the sliver left of it is
+   useless and the full width is used instead, so the map is framed
+   sensibly once the panel closes. */
+function mapWidth(reservePanel){
+  const r=svg.getBoundingClientRect();
+  const pw=(reservePanel||panel.classList.contains('open'))?panel.offsetWidth:0;
+  const avail=r.width-pw;
+  return avail>=240?avail:r.width;
+}
 function fitView(){
   let x0=1e9,x1=-1e9,y0=1e9,y1=-1e9;
   // Fit only boxes actually on screen: idMap still holds stale x/y for
@@ -536,12 +547,11 @@ function fitView(){
   const r=stage.getBoundingClientRect(),pad=80;
   // With the details panel open, the map's visible area ends at the
   // panel's left edge: fit into that, or the right side slides under it.
-  const pw=panel.classList.contains('open')?panel.offsetWidth:0;
-  const availW=r.width-pw;
+  const fitW=mapWidth(false);
   const bw=(x1-x0)+pad*2,bh=(y1-y0)+pad*2;
-  const k=Math.max(.12,Math.min(availW/bw,r.height/bh,1.05));
+  const k=Math.max(.12,Math.min(fitW/bw,r.height/bh,1.05));
   view.k=k;
-  view.x=availW/2-((x0+x1)/2)*k;
+  view.x=fitW/2-((x0+x1)/2)*k;
   view.y=96-y0*k;
   userMoved=false;applyView();
 }
@@ -577,9 +587,8 @@ function ensureKidsVisible(n){
 function centerOn(n,reservePanel){
   const r=svg.getBoundingClientRect();
   const k=Math.max(view.k,.85);
-  const pw=(reservePanel||panel.classList.contains('open'))?panel.offsetWidth:0;
   view.k=k;
-  view.x=(r.width-pw)/2-n.x*k;view.y=r.height/2-n.y*k;
+  view.x=mapWidth(reservePanel)/2-n.x*k;view.y=r.height/2-n.y*k;
   userMoved=true;applyView();
 }
 
