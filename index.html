@@ -290,7 +290,7 @@ const VGAP=168, LEAF=228;
 const SIZE={root:[220,62],phase:[240,58],module:[222,54],topic:[205,48],sub:[198,44]};
 const LABEL_MAX={root:20,phase:26,module:26,topic:27,sub:28};
 
-let tree=null, idMap=new Map(), view={x:0,y:0,k:1}, firstRender=true, userMoved=false;
+let tree=null, idMap=new Map(), view={x:0,y:0,k:1}, userMoved=false;
 
 function trunc(s,n){s=String(s==null?'':s);return s.length>n?s.slice(0,n-1)+'…':s;}
 function esc(s){return String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
@@ -595,7 +595,8 @@ function centerOn(n,reservePanel){
 /* pan (drag threshold: only capture the pointer once it is a real drag, so clicks on nodes still fire) */
 let panning=false,dragging=false,sx=0,sy=0,vx=0,vy=0,pid=null;
 stage.addEventListener('pointerdown',e=>{
-  if(e.target.closest('#panel')||e.target.closest('header'))return;
+  // No guard for the panel/header here: neither is inside #stage, so a
+  // pointerdown on the stage can never come from them.
   panning=true;dragging=false;sx=e.clientX;sy=e.clientY;vx=view.x;vy=view.y;pid=e.pointerId;
 });
 stage.addEventListener('pointermove',e=>{
@@ -611,7 +612,7 @@ stage.addEventListener('pointermove',e=>{
     userMoved=true;applyView();
   }
 });
-function endPan(){panning=false;dragging=false;stage.classList.remove('panning');}
+function endPan(){panning=false;dragging=false;pid=null;stage.classList.remove('panning');}
 stage.addEventListener('pointerup',endPan);
 stage.addEventListener('pointercancel',endPan);
 stage.addEventListener('wheel',e=>{
@@ -853,7 +854,6 @@ fetch('data/syllabus.json')
   .then(data=>{
     tree=build(data);
     render(true);
-    firstRender=false;
     requestAnimationFrame(()=>setTimeout(()=>{fitView();openFromHash();},60));
     setTimeout(()=>toast('Click the LINUX MASTERY box ⚡'),1400);
   })
