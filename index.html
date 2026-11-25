@@ -646,7 +646,11 @@ gNodes.addEventListener('keydown',e=>{
    aria-modal. */
 let lastFocus=null;
 function openPanel(kicker,title,html){
-  lastFocus=document.activeElement;
+  // Only remember the opener when the panel is closed: re-opening it
+  // while it is already open (another module, a search hit) would
+  // otherwise record the close button itself as the thing to return
+  // focus to — and closing would then focus a hidden button.
+  if(!panel.classList.contains('open'))lastFocus=document.activeElement;
   pKicker.textContent=kicker;pTitle.textContent=title;pBody.innerHTML=html;
   panel.classList.add('open');
   document.getElementById('panelClose').focus();
@@ -659,7 +663,10 @@ function closePanel(){
   if(el&&!document.contains(el)&&el.dataset&&el.dataset.id){
     el=gNodes.querySelector('[data-id="'+el.dataset.id+'"]');
   }
-  if(el&&document.contains(el))el.focus({preventScroll:true});
+  // Never refocus something inside the panel itself (e.g. its close
+  // button, if it was somehow recorded as the opener): it is hidden
+  // once the panel closes, and focus would strand there.
+  if(el&&document.contains(el)&&!panel.contains(el))el.focus({preventScroll:true});
   lastFocus=null;
 }
 document.getElementById('panelClose').addEventListener('click',closePanel);
