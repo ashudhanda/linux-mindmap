@@ -711,7 +711,11 @@ document.getElementById('search').addEventListener('keydown',e=>{
     // non-empty query the panel stays put (stopPropagation keeps the
     // document-level Esc handler from closing it mid-typing); with an
     // empty query Esc falls through and closes the panel as usual.
-    if(e.target.value){e.target.value='';lastQuery='';matchIdx=0;e.preventDefault();e.stopPropagation();}
+    // Either way the match cycle resets: a cleared query is a fresh
+    // search, so the next search for the same term must start at
+    // match 1 instead of resuming mid-cycle.
+    lastQuery='';matchIdx=0;
+    if(e.target.value){e.target.value='';e.preventDefault();e.stopPropagation();}
     return;
   }
   if(e.key!=='Enter')return;
