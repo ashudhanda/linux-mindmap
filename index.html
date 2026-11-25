@@ -817,7 +817,14 @@ function openFromHash(){
   const n=idMap.get(id);
   // A mistyped or stale deep link used to do nothing at all: say so and
   // point at a valid id instead of leaving the user staring at the root.
-  if(!n){toast('No module "'+id+'" — try #m1 … #m19');return;}
+  // The valid range comes from the loaded data, not a hardcoded
+  // '#m1 … #m19': a future module would move the range.
+  if(!n){
+    const mods=[...idMap.keys()].filter(k=>/^m\d+$/.test(k))
+      .sort((a,b)=>parseInt(a.slice(1),10)-parseInt(b.slice(1),10));
+    const range=mods.length?' — try #'+mods[0]+' … #'+mods[mods.length-1]:'';
+    toast('No module "'+id+'"'+range);return;
+  }
   let p=n.parent;
   while(p){p.expanded=true;p=p.parent;}
   // A phase/topic target is itself expandable: open it too, so #p2 / #m7t0
