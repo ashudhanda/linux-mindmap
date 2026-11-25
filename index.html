@@ -605,7 +605,17 @@ stage.addEventListener('pointermove',e=>{
 function endPan(){panning=false;dragging=false;stage.classList.remove('panning');}
 stage.addEventListener('pointerup',endPan);
 stage.addEventListener('pointercancel',endPan);
-stage.addEventListener('wheel',e=>{e.preventDefault();zoomBy(Math.pow(1.0016,-e.deltaY),e.clientX,e.clientY);},{passive:false});
+stage.addEventListener('wheel',e=>{
+  e.preventDefault();
+  // Firefox reports wheel deltas in lines (deltaMode 1) or pages (2),
+  // not pixels: three lines per notch would otherwise zoom ~0.5%
+  // instead of ~20%, making scroll-zoom feel dead. Normalise to
+  // pixels (40px/line is the usual convention; a page is the viewport).
+  let d=e.deltaY;
+  if(e.deltaMode===1)d*=40;
+  else if(e.deltaMode===2)d*=svg.getBoundingClientRect().height;
+  zoomBy(Math.pow(1.0016,-d),e.clientX,e.clientY);
+},{passive:false});
 document.getElementById('zoomIn').addEventListener('click',()=>zoomBy(1.25));
 document.getElementById('zoomOut').addEventListener('click',()=>zoomBy(.8));
 document.getElementById('fitBtn').addEventListener('click',fitView);
